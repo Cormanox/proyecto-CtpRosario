@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-card">
             <div class="login-header">
                 <a href="<?= url('public/index.php'); ?>" style="text-decoration: none; display: inline-block; margin-bottom: 12px;">
-                    <img src="<?= url('assets/img/logo.png'); ?>" alt="CTP Rosario" style="height: 65px;" onerror="this.src='https://via.placeholder.com/65x65?text=CTP';">
+                    <img src="<?= url('assets/img/escudoctp.png'); ?>" alt="Escudo CTP Rosario" style="height: 65px; object-fit: contain;">
                 </a>
                 <h2>Panel Administrativo</h2>
                 <p>Colegio Técnico Profesional Rosario</p>

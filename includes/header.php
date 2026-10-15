@@ -29,7 +29,7 @@ $currentUri = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
         <div class="container header-container">
             <div class="logo-container">
                 <a href="<?= url('public/index.php'); ?>">
-                    <img src="<?= url('assets/img/logo.png'); ?>" alt="Logo CTP Rosario" class="logo-img" onerror="this.src='https://via.placeholder.com/60x60?text=CTP';">
+                    <img src="<?= url('assets/img/escudoctp.png'); ?>" alt="Escudo CTP Rosario" class="logo-img">
                     <div class="logo-text">
                         <h1>CTP Rosario</h1>
                         <span>Colegio Técnico Profesional</span>
