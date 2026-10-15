@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
+
 $pageTitle = "Contacto y Consultas";
-require_once '../config/db.php';
-require_once '../includes/header.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/header.php';
 
 $mensaje = '';
 $tipoMensaje = '';
+
+$nombre = $correo = $telefono = $asunto = $texto = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre   = trim($_POST['nombre_remitente'] ?? '');
@@ -36,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tipoMensaje = 'success';
             $nombre = $correo = $telefono = $asunto = $texto = '';
         } catch (PDOException $e) {
-            $mensaje = 'Ocurrió un error al enviar tu consulta: ' . htmlspecialchars($e->getMessage());
+            error_log("[Contacto Insert Error] " . $e->getMessage());
+            $mensaje = 'Ocurrió un error al enviar tu consulta. Por favor intente nuevamente o utilice nuestras líneas telefónicas.';
             $tipoMensaje = 'danger';
         }
     }
@@ -96,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="margin-top: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #ffd700;">
                 <strong style="color: #003366; display: block; margin-bottom: 5px;">¿Buscas matrícula?</strong>
                 <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 12px;">Puedes registrar tu solicitud en línea sin necesidad de hacer filas en secretaría.</p>
-                <a href="prematricula.php" class="service-link" style="margin-top: 0;">Completar Pre-Matrícula &rarr;</a>
+                <a href="<?= url('public/prematricula.php'); ?>" class="service-link" style="margin-top: 0;">Completar Pre-Matrícula &rarr;</a>
             </div>
         </div>
 
@@ -107,36 +112,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </h3>
 
             <?php if (!empty($mensaje)): ?>
-                <div class="alert alert-<?php echo $tipoMensaje; ?>">
-                    <i class="fa-solid <?php echo ($tipoMensaje === 'success') ? 'fa-circle-check' : 'fa-circle-exclamation'; ?>"></i>
-                    <div><?php echo $mensaje; ?></div>
+                <div class="alert alert-<?= e($tipoMensaje); ?>">
+                    <i class="fa-solid <?= ($tipoMensaje === 'success') ? 'fa-circle-check' : 'fa-circle-exclamation'; ?>"></i>
+                    <div><?= e($mensaje); ?></div>
                 </div>
             <?php endif; ?>
 
-            <form action="contacto.php" method="POST">
+            <form action="<?= url('public/contacto.php'); ?>" method="POST">
                 <div class="form-group">
                     <label for="nombre_remitente">Nombre Completo *</label>
-                    <input type="text" id="nombre_remitente" name="nombre_remitente" class="form-control" required value="<?php echo htmlspecialchars($nombre ?? ''); ?>" placeholder="Tu nombre y apellidos">
+                    <input type="text" id="nombre_remitente" name="nombre_remitente" class="form-control" required value="<?= e($nombre); ?>" placeholder="Tu nombre y apellidos">
                 </div>
 
                 <div class="form-group">
                     <label for="correo_remitente">Correo Electrónico *</label>
-                    <input type="email" id="correo_remitente" name="correo_remitente" class="form-control" required value="<?php echo htmlspecialchars($correo ?? ''); ?>" placeholder="correo@ejemplo.com">
+                    <input type="email" id="correo_remitente" name="correo_remitente" class="form-control" required value="<?= e($correo); ?>" placeholder="correo@ejemplo.com">
                 </div>
 
                 <div class="form-group">
                     <label for="telefono">Teléfono (opcional)</label>
-                    <input type="tel" id="telefono" name="telefono" class="form-control" value="<?php echo htmlspecialchars($telefono ?? ''); ?>" placeholder="Ej: 8888-8888">
+                    <input type="tel" id="telefono" name="telefono" class="form-control" value="<?= e($telefono); ?>" placeholder="Ej: 8888-8888">
                 </div>
 
                 <div class="form-group">
                     <label for="asunto">Asunto de la Consulta *</label>
-                    <input type="text" id="asunto" name="asunto" class="form-control" required value="<?php echo htmlspecialchars($asunto ?? ''); ?>" placeholder="Ej: Información sobre uniformes y horarios">
+                    <input type="text" id="asunto" name="asunto" class="form-control" required value="<?= e($asunto); ?>" placeholder="Ej: Información sobre uniformes y horarios">
                 </div>
 
                 <div class="form-group">
                     <label for="mensaje">Mensaje o Detalle *</label>
-                    <textarea id="mensaje" name="mensaje" class="form-control" required placeholder="Escribe tu mensaje aquí..."><?php echo htmlspecialchars($texto ?? ''); ?></textarea>
+                    <textarea id="mensaje" name="mensaje" class="form-control" required placeholder="Escribe tu mensaje aquí..."><?= e($texto); ?></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; cursor: pointer;">
@@ -148,4 +153,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </main>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

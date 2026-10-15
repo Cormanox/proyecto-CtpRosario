@@ -1,14 +1,16 @@
 <?php
-require_once 'auth_check.php';
-require_once '../config/db.php';
+declare(strict_types=1);
+
+require_once __DIR__ . '/auth_check.php';
+require_once __DIR__ . '/../config/db.php';
 
 // Estadísticas de la base de datos
 try {
-    $totalPrematriculas = $pdo->query("SELECT COUNT(*) FROM prematriculas")->fetchColumn();
-    $pendientesPrematriculas = $pdo->query("SELECT COUNT(*) FROM prematriculas WHERE estado_solicitud = 'pendiente'")->fetchColumn();
-    $totalConsultas = $pdo->query("SELECT COUNT(*) FROM consultas")->fetchColumn();
-    $consultasNoLeidas = $pdo->query("SELECT COUNT(*) FROM consultas WHERE leido = 0")->fetchColumn();
-    $totalNoticias = $pdo->query("SELECT COUNT(*) FROM noticias WHERE estado = 'publicado'")->fetchColumn();
+    $totalPrematriculas = (int)$pdo->query("SELECT COUNT(*) FROM prematriculas")->fetchColumn();
+    $pendientesPrematriculas = (int)$pdo->query("SELECT COUNT(*) FROM prematriculas WHERE estado_solicitud = 'pendiente'")->fetchColumn();
+    $totalConsultas = (int)$pdo->query("SELECT COUNT(*) FROM consultas")->fetchColumn();
+    $consultasNoLeidas = (int)$pdo->query("SELECT COUNT(*) FROM consultas WHERE leido = 0")->fetchColumn();
+    $totalNoticias = (int)$pdo->query("SELECT COUNT(*) FROM noticias WHERE estado = 'publicado'")->fetchColumn();
 
     // Últimas solicitudes de pre-matrícula
     $stmtPre = $pdo->query("SELECT * FROM prematriculas ORDER BY fecha_registro DESC LIMIT 5");
@@ -19,7 +21,8 @@ try {
     $ultimasConsultas = $stmtCon->fetchAll();
 
 } catch (PDOException $e) {
-    die("Error al cargar los datos del dashboard: " . htmlspecialchars($e->getMessage()));
+    error_log("[Admin Dashboard Error] " . $e->getMessage());
+    die("Error al cargar los datos del dashboard. Por favor verifique el registro del sistema.");
 }
 ?>
 <!DOCTYPE html>
@@ -28,8 +31,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administrativo - CTP Rosario</title>
-    <link rel="stylesheet" href="/ctp_rosario/assets/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= url('assets/css/styles.css'); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body>
 
@@ -41,15 +44,17 @@ try {
                     <i class="fa-solid fa-gauge-high"></i> CTP Rosario | Admin
                 </h2>
                 <ul class="admin-nav-links">
-                    <li><a href="index.php" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="solicitudes.php"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
-                    <li><a href="noticias.php"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
+                    <li><a href="<?= url('admin/index.php'); ?>" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="<?= url('admin/solicitudes.php'); ?>"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
+                    <li><a href="<?= url('admin/noticias.php'); ?>"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
                 </ul>
             </div>
             <div class="admin-user-info">
-                <span><i class="fa-solid fa-user-circle"></i> <?php echo htmlspecialchars($_SESSION['user_name'] ?? 'Administrador'); ?></span>
-                <a href="/ctp_rosario/public/index.php" target="_blank" style="color: #94a3b8; text-decoration: none;" title="Ver Portal Web"><i class="fa-solid fa-arrow-up-right-from-square"></i> Web</a>
-                <a href="logout.php" class="btn btn-sm btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+                <span><i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Administrador'); ?></span>
+                <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none;" title="Ver Portal Web">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Web
+                </a>
+                <a href="<?= url('admin/logout.php'); ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
             </div>
         </div>
     </header>
@@ -67,8 +72,8 @@ try {
                 </div>
                 <div class="stat-content">
                     <h4>Pre-Matrículas</h4>
-                    <div class="stat-number"><?php echo $totalPrematriculas; ?></div>
-                    <small style="color: #f59e0b;"><?php echo $pendientesPrematriculas; ?> pendientes</small>
+                    <div class="stat-number"><?= $totalPrematriculas; ?></div>
+                    <small style="color: #f59e0b;"><?= $pendientesPrematriculas; ?> pendientes</small>
                 </div>
             </div>
 
@@ -78,7 +83,7 @@ try {
                 </div>
                 <div class="stat-content">
                     <h4>Noticias Activas</h4>
-                    <div class="stat-number"><?php echo $totalNoticias; ?></div>
+                    <div class="stat-number"><?= $totalNoticias; ?></div>
                     <small style="color: #10b981;">Publicadas en portada</small>
                 </div>
             </div>
@@ -89,8 +94,8 @@ try {
                 </div>
                 <div class="stat-content">
                     <h4>Consultas Recibidas</h4>
-                    <div class="stat-number"><?php echo $totalConsultas; ?></div>
-                    <small style="color: #ef4444;"><?php echo $consultasNoLeidas; ?> sin leer</small>
+                    <div class="stat-number"><?= $totalConsultas; ?></div>
+                    <small style="color: #ef4444;"><?= $consultasNoLeidas; ?> sin leer</small>
                 </div>
             </div>
 
@@ -109,7 +114,7 @@ try {
         <!-- Tabla: Últimas Pre-matrículas -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px 0;">
             <h3 style="color: #003366; font-size: 1.3rem;"><i class="fa-solid fa-user-clock"></i> Últimas Solicitudes de Pre-Matrícula</h3>
-            <a href="solicitudes.php" style="color: #003366; font-weight: 600; text-decoration: none; font-size: 0.9rem;">Ver todas las solicitudes &rarr;</a>
+            <a href="<?= url('admin/solicitudes.php'); ?>" style="color: #003366; font-weight: 600; text-decoration: none; font-size: 0.9rem;">Ver todas las solicitudes &rarr;</a>
         </div>
 
         <div class="table-responsive">
@@ -130,18 +135,18 @@ try {
                     <?php if (!empty($ultimasPrematriculas)): ?>
                         <?php foreach ($ultimasPrematriculas as $sol): ?>
                             <tr>
-                                <td>#<?php echo $sol['id']; ?></td>
-                                <td><strong><?php echo htmlspecialchars($sol['cedula_estudiante']); ?></strong></td>
-                                <td><?php echo htmlspecialchars($sol['nombre_estudiante'] . ' ' . $sol['primer_apellido']); ?></td>
-                                <td><?php echo htmlspecialchars($sol['especialidad_interes']); ?></td>
-                                <td><?php echo htmlspecialchars($sol['nombre_encargado']); ?></td>
-                                <td><?php echo htmlspecialchars($sol['telefono_contacto']); ?></td>
+                                <td>#<?= (int)$sol['id']; ?></td>
+                                <td><strong><?= e($sol['cedula_estudiante'] ?? ''); ?></strong></td>
+                                <td><?= e(($sol['nombre_estudiante'] ?? '') . ' ' . ($sol['primer_apellido'] ?? '')); ?></td>
+                                <td><?= e($sol['especialidad_interes'] ?? ''); ?></td>
+                                <td><?= e($sol['nombre_encargado'] ?? ''); ?></td>
+                                <td><?= e($sol['telefono_contacto'] ?? ''); ?></td>
                                 <td>
-                                    <span class="badge badge-<?php echo htmlspecialchars($sol['estado_solicitud']); ?>">
-                                        <?php echo htmlspecialchars(str_replace('_', ' ', $sol['estado_solicitud'])); ?>
+                                    <span class="badge badge-<?= e($sol['estado_solicitud'] ?? 'pendiente'); ?>">
+                                        <?= e(str_replace('_', ' ', $sol['estado_solicitud'] ?? 'pendiente')); ?>
                                     </span>
                                 </td>
-                                <td><?php echo date('d/m/Y H:i', strtotime($sol['fecha_registro'])); ?></td>
+                                <td><?= date('d/m/Y H:i', strtotime($sol['fecha_registro'])); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -156,7 +161,7 @@ try {
         <!-- Tabla: Últimas Consultas -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px 0;">
             <h3 style="color: #003366; font-size: 1.3rem;"><i class="fa-solid fa-comments"></i> Mensajes Recientes de Contacto</h3>
-            <a href="solicitudes.php#consultas" style="color: #003366; font-weight: 600; text-decoration: none; font-size: 0.9rem;">Ver todas las consultas &rarr;</a>
+            <a href="<?= url('admin/solicitudes.php#consultas'); ?>" style="color: #003366; font-weight: 600; text-decoration: none; font-size: 0.9rem;">Ver todas las consultas &rarr;</a>
         </div>
 
         <div class="table-responsive">
@@ -175,18 +180,18 @@ try {
                     <?php if (!empty($ultimasConsultas)): ?>
                         <?php foreach ($ultimasConsultas as $c): ?>
                             <tr>
-                                <td>#<?php echo $c['id']; ?></td>
-                                <td><strong><?php echo htmlspecialchars($c['nombre_remitente']); ?></strong></td>
-                                <td><?php echo htmlspecialchars($c['correo_remitente']); ?></td>
-                                <td><?php echo htmlspecialchars($c['asunto']); ?></td>
+                                <td>#<?= (int)$c['id']; ?></td>
+                                <td><strong><?= e($c['nombre_remitente'] ?? ''); ?></strong></td>
+                                <td><?= e($c['correo_remitente'] ?? ''); ?></td>
+                                <td><?= e($c['asunto'] ?? ''); ?></td>
                                 <td>
-                                    <?php if ($c['leido']): ?>
+                                    <?php if (!empty($c['leido'])): ?>
                                         <span class="badge badge-aceptada">Leído</span>
                                     <?php else: ?>
                                         <span class="badge badge-rechazada">No leído</span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?php echo date('d/m/Y H:i', strtotime($c['fecha_envio'])); ?></td>
+                                <td><?= date('d/m/Y H:i', strtotime($c['fecha_envio'])); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>

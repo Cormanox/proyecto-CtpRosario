@@ -1,4 +1,8 @@
-<footer class="main-footer">
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/../config/db.php';
+?>
+    <footer class="main-footer">
         <div class="container footer-container">
             <div class="footer-info">
                 <h3>CTP Rosario</h3>
@@ -7,10 +11,10 @@
             <div class="footer-links">
                 <h4>Enlaces Rápidos</h4>
                 <ul>
-                    <li><a href="/ctp_rosario/public/index.php">Inicio</a></li>
-                    <li><a href="/ctp_rosario/public/oferta.php">Oferta Académica</a></li>
-                    <li><a href="/ctp_rosario/public/prematricula.php">Proceso de Pre-Matrícula</a></li>
-                    <li><a href="/ctp_rosario/public/contacto.php">Consultas</a></li>
+                    <li><a href="<?= url('public/index.php'); ?>">Inicio</a></li>
+                    <li><a href="<?= url('public/oferta.php'); ?>">Oferta Académica</a></li>
+                    <li><a href="<?= url('public/prematricula.php'); ?>">Proceso de Pre-Matrícula</a></li>
+                    <li><a href="<?= url('public/contacto.php'); ?>">Consultas</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
@@ -22,7 +26,7 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; <?php echo date('Y'); ?> CTP Rosario. Todos los derechos reservados. Proyecto Académico de Desarrollo Web.</p>
+                <p>&copy; <?= date('Y'); ?> CTP Rosario. Todos los derechos reservados. Proyecto Académico de Desarrollo Web.</p>
             </div>
         </div>
     </footer>

@@ -1,13 +1,28 @@
 <?php
+declare(strict_types=1);
+
 $pageTitle = "Solicitud de Pre-Matrícula";
-require_once '../config/db.php';
-require_once '../includes/header.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/header.php';
 
 $mensaje = '';
 $tipoMensaje = '';
 
-// Preselección si viene por URL
-$especialidadSeleccionada = isset($_GET['especialidad']) ? trim($_GET['especialidad']) : '';
+$especialidadesDisponibles = [
+    'Desarrollo de Software'  => 'Informática en Desarrollo de Software',
+    'Contabilidad y Finanzas' => 'Contabilidad y Finanzas',
+    'Electronica Industrial'  => 'Electrónica Industrial',
+    'Secretariado Ejecutivo'  => 'Secretariado Ejecutivo',
+    'Mecanica de Precision'   => 'Mecánica de Precisión'
+];
+
+// Validación y sanitización del parámetro GET
+$especialidadGet = trim($_GET['especialidad'] ?? '');
+$especialidadSeleccionada = array_key_exists($especialidadGet, $especialidadesDisponibles) ? $especialidadGet : '';
+
+$cedula = $nombre = $primerApellido = $segundoApellido = $fechaNacimiento = '';
+$especialidad = '';
+$nombreEncargado = $telefonoContacto = $correoContacto = $observaciones = '';
 
 // Procesamiento del formulario POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -55,14 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':observaciones'   => $observaciones
             ]);
 
-            $idSolicitud = $pdo->lastInsertId();
-            $mensaje = "¡Solicitud de pre-matrícula registrada exitosamente! Tu número de expediente es: #$idSolicitud. La administración revisará tus datos y te contactará a la brevedad.";
+            $idSolicitud = (int)$pdo->lastInsertId();
+            $mensaje = "¡Solicitud de pre-matrícula registrada exitosamente! Tu número de expediente es: #{$idSolicitud}. La administración revisará tus datos y te contactará a la brevedad.";
             $tipoMensaje = 'success';
 
-            // Limpiar variables para limpiar el formulario
+            // Limpiar variables tras éxito
             $cedula = $nombre = $primerApellido = $segundoApellido = $fechaNacimiento = $especialidad = $nombreEncargado = $telefonoContacto = $correoContacto = $observaciones = '';
+            $especialidadSeleccionada = '';
         } catch (PDOException $e) {
-            $mensaje = 'Ocurrió un error al procesar tu solicitud: ' . htmlspecialchars($e->getMessage());
+            error_log("[Prematricula Error] " . $e->getMessage());
+            $mensaje = 'Ocurrió un error al procesar tu solicitud. Por favor intenta más tarde o comunícate con secretaría.';
             $tipoMensaje = 'danger';
         }
     }
@@ -79,13 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <main class="container">
     <div class="form-card">
         <?php if (!empty($mensaje)): ?>
-            <div class="alert alert-<?php echo $tipoMensaje; ?>">
-                <i class="fa-solid <?php echo ($tipoMensaje === 'success') ? 'fa-circle-check' : 'fa-circle-exclamation'; ?>"></i>
-                <div><?php echo $mensaje; ?></div>
+            <div class="alert alert-<?= e($tipoMensaje); ?>">
+                <i class="fa-solid <?= ($tipoMensaje === 'success') ? 'fa-circle-check' : 'fa-circle-exclamation'; ?>"></i>
+                <div><?= e($mensaje); ?></div>
             </div>
         <?php endif; ?>
 
-        <form action="prematricula.php" method="POST">
+        <form action="<?= url('public/prematricula.php'); ?>" method="POST">
             <h3 style="color: #003366; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">
                 <i class="fa-solid fa-user-graduate"></i> Datos del Estudiante
             </h3>
@@ -93,27 +110,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-grid">
                 <div class="form-group">
                     <label for="cedula_estudiante">Cédula / Documento de Identidad *</label>
-                    <input type="text" id="cedula_estudiante" name="cedula_estudiante" class="form-control" required value="<?php echo htmlspecialchars($cedula ?? ''); ?>" placeholder="Ej: 1-1234-5678">
+                    <input type="text" id="cedula_estudiante" name="cedula_estudiante" class="form-control" required value="<?= e($cedula); ?>" placeholder="Ej: 1-1234-5678">
                 </div>
 
                 <div class="form-group">
                     <label for="nombre_estudiante">Nombre del Estudiante *</label>
-                    <input type="text" id="nombre_estudiante" name="nombre_estudiante" class="form-control" required value="<?php echo htmlspecialchars($nombre ?? ''); ?>" placeholder="Ej: Carlos">
+                    <input type="text" id="nombre_estudiante" name="nombre_estudiante" class="form-control" required value="<?= e($nombre); ?>" placeholder="Ej: Carlos">
                 </div>
 
                 <div class="form-group">
                     <label for="primer_apellido">Primer Apellido *</label>
-                    <input type="text" id="primer_apellido" name="primer_apellido" class="form-control" required value="<?php echo htmlspecialchars($primerApellido ?? ''); ?>" placeholder="Ej: Rodríguez">
+                    <input type="text" id="primer_apellido" name="primer_apellido" class="form-control" required value="<?= e($primerApellido); ?>" placeholder="Ej: Rodríguez">
                 </div>
 
                 <div class="form-group">
                     <label for="segundo_apellido">Segundo Apellido</label>
-                    <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control" value="<?php echo htmlspecialchars($segundoApellido ?? ''); ?>" placeholder="Ej: Morales">
+                    <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control" value="<?= e($segundoApellido); ?>" placeholder="Ej: Morales">
                 </div>
 
                 <div class="form-group">
                     <label for="fecha_nacimiento">Fecha de Nacimiento *</label>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required value="<?php echo htmlspecialchars($fechaNacimiento ?? ''); ?>">
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required value="<?= e($fechaNacimiento); ?>">
                 </div>
 
                 <div class="form-group">
@@ -121,18 +138,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <select id="especialidad_interes" name="especialidad_interes" class="form-control" required>
                         <option value="">-- Selecciona una especialidad --</option>
                         <?php
-                        $especialidades = [
-                            'Desarrollo de Software' => 'Informática en Desarrollo de Software',
-                            'Contabilidad y Finanzas' => 'Contabilidad y Finanzas',
-                            'Electronica Industrial' => 'Electrónica Industrial',
-                            'Secretariado Ejecutivo' => 'Secretariado Ejecutivo',
-                            'Mecanica de Precision' => 'Mecánica de Precisión'
-                        ];
-                        $valActual = $especialidad ?? $especialidadSeleccionada;
-                        foreach ($especialidades as $val => $txt):
-                            $selected = (strcasecmp($valActual, $val) === 0 || strcasecmp($valActual, $txt) === 0) ? 'selected' : '';
+                        $valActual = $especialidad !== '' ? $especialidad : $especialidadSeleccionada;
+                        foreach ($especialidadesDisponibles as $key => $nombreCompleto):
+                            $isSelected = (strcasecmp($valActual, $key) === 0 || strcasecmp($valActual, $nombreCompleto) === 0);
                         ?>
-                            <option value="<?php echo htmlspecialchars($txt); ?>" <?php echo $selected; ?>><?php echo htmlspecialchars($txt); ?></option>
+                            <option value="<?= e($nombreCompleto); ?>" <?= $isSelected ? 'selected' : ''; ?>>
+                                <?= e($nombreCompleto); ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -145,22 +157,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-grid">
                 <div class="form-group">
                     <label for="nombre_encargado">Nombre del Padre, Madre o Encargado Legal *</label>
-                    <input type="text" id="nombre_encargado" name="nombre_encargado" class="form-control" required value="<?php echo htmlspecialchars($nombreEncargado ?? ''); ?>" placeholder="Nombre completo del tutor">
+                    <input type="text" id="nombre_encargado" name="nombre_encargado" class="form-control" required value="<?= e($nombreEncargado); ?>" placeholder="Nombre completo del tutor">
                 </div>
 
                 <div class="form-group">
                     <label for="telefono_contacto">Teléfono de Contacto *</label>
-                    <input type="tel" id="telefono_contacto" name="telefono_contacto" class="form-control" required value="<?php echo htmlspecialchars($telefonoContacto ?? ''); ?>" placeholder="Ej: 8888-8888">
+                    <input type="tel" id="telefono_contacto" name="telefono_contacto" class="form-control" required value="<?= e($telefonoContacto); ?>" placeholder="Ej: 8888-8888">
                 </div>
 
                 <div class="form-group">
                     <label for="correo_contacto">Correo Electrónico de Contacto *</label>
-                    <input type="email" id="correo_contacto" name="correo_contacto" class="form-control" required value="<?php echo htmlspecialchars($correoContacto ?? ''); ?>" placeholder="correo@ejemplo.com">
+                    <input type="email" id="correo_contacto" name="correo_contacto" class="form-control" required value="<?= e($correoContacto); ?>" placeholder="correo@ejemplo.com">
                 </div>
 
                 <div class="form-group full-width">
                     <label for="observaciones">Observaciones o Información Adicional</label>
-                    <textarea id="observaciones" name="observaciones" class="form-control" placeholder="Indica aquí cualquier condición especial, colegio de procedencia o información de interés..."><?php echo htmlspecialchars($observaciones ?? ''); ?></textarea>
+                    <textarea id="observaciones" name="observaciones" class="form-control" placeholder="Indica aquí cualquier condición especial, colegio de procedencia o información de interés..."><?= e($observaciones); ?></textarea>
                 </div>
             </div>
 
@@ -173,4 +185,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </main>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
