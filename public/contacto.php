@@ -60,13 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <!-- Tarjeta de Información de Contacto -->
         <div class="form-card" style="margin-bottom: 0;">
-            <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.3rem;">
+            <h3 style="color: #871a2f; margin-bottom: 20px; font-size: 1.3rem;">
                 <i class="fa-solid fa-school"></i> Datos del Colegio
             </h3>
             
             <div style="display: flex; flex-direction: column; gap: 20px; color: #475569;">
                 <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    <div style="color: #003366; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-location-dot"></i></div>
+                    <div style="color: #871a2f; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-location-dot"></i></div>
                     <div>
                         <strong style="color: #1e293b; display: block;">Dirección:</strong>
                         Rosario, Costa Rica. Del parque central 400m norte.
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    <div style="color: #003366; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-phone"></i></div>
+                    <div style="color: #871a2f; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-phone"></i></div>
                     <div>
                         <strong style="color: #1e293b; display: block;">Teléfono Central:</strong>
                         +506 2000-0000 / +506 2000-0001
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    <div style="color: #003366; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-envelope"></i></div>
+                    <div style="color: #871a2f; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-envelope"></i></div>
                     <div>
                         <strong style="color: #1e293b; display: block;">Correo Institucional:</strong>
                         info@ctprosario.ed.cr / admisiones@ctprosario.ed.cr
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    <div style="color: #003366; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-clock"></i></div>
+                    <div style="color: #871a2f; font-size: 1.3rem; margin-top: 2px;"><i class="fa-solid fa-clock"></i></div>
                     <div>
                         <strong style="color: #1e293b; display: block;">Horario de Atención:</strong>
                         Lunes a Viernes de 7:00 a.m. a 4:30 p.m.
@@ -98,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <div style="margin-top: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #ffd700;">
-                <strong style="color: #003366; display: block; margin-bottom: 5px;">¿Buscas matrícula?</strong>
+            <div style="margin-top: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #9c1932;">
+                <strong style="color: #871a2f; display: block; margin-bottom: 5px;">¿Buscas matrícula?</strong>
                 <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 12px;">Puedes registrar tu solicitud en línea sin necesidad de hacer filas en secretaría.</p>
                 <a href="<?= url('public/prematricula.php'); ?>" class="service-link" style="margin-top: 0;">Completar Pre-Matrícula &rarr;</a>
             </div>
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Formulario de Consulta -->
         <div class="form-card" style="margin-bottom: 0;">
-            <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.3rem;">
+            <h3 style="color: #871a2f; margin-bottom: 20px; font-size: 1.3rem;">
                 <i class="fa-solid fa-paper-plane"></i> Envíanos un Mensaje
             </h3>
 
