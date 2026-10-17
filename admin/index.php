@@ -45,12 +45,19 @@ try {
                 </h2>
                 <ul class="admin-nav-links">
                     <li><a href="<?= url('admin/index.php'); ?>" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="<?= url('admin/solicitudes.php'); ?>"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
+                    <?php if (tieneRol('admin')): ?>
+                        <li><a href="<?= url('admin/solicitudes.php'); ?>"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
+                    <?php endif; ?>
                     <li><a href="<?= url('admin/noticias.php'); ?>"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
                 </ul>
             </div>
             <div class="admin-user-info">
-                <span><i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Administrador'); ?></span>
+                <span>
+                    <i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Usuario'); ?>
+                    <span style="background: <?= (($_SESSION['user_role'] ?? '') === 'admin') ? '#ef4444' : '#3b82f6'; ?>; color: #fff; font-size: 0.72rem; padding: 2px 7px; border-radius: 12px; margin-left: 5px; text-transform: uppercase; font-weight: bold;">
+                        <?= e($_SESSION['user_role'] ?? 'Usuario'); ?>
+                    </span>
+                </span>
                 <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none;" title="Ver Portal Web">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Web
                 </a>

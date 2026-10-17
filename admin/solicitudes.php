@@ -4,6 +4,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/auth_check.php';
 require_once __DIR__ . '/../config/db.php';
 
+// Solo el rol 'admin' puede gestionar solicitudes y consultas
+requerirRol('admin');
+
+
 $mensaje = '';
 $tipoMensaje = '';
 
@@ -79,7 +83,12 @@ try {
                 </ul>
             </div>
             <div class="admin-user-info">
-                <span><i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Administrador'); ?></span>
+                <span>
+                    <i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Usuario'); ?>
+                    <span style="background: <?= (($_SESSION['user_role'] ?? '') === 'admin') ? '#ef4444' : '#3b82f6'; ?>; color: #fff; font-size: 0.72rem; padding: 2px 7px; border-radius: 12px; margin-left: 5px; text-transform: uppercase; font-weight: bold;">
+                        <?= e($_SESSION['user_role'] ?? 'Usuario'); ?>
+                    </span>
+                </span>
                 <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none;" title="Ver Portal Web">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Web
                 </a>
