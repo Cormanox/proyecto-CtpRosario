@@ -1,3 +1,18 @@
+/* ==========================================================================
+   CTP ROSARIO - HOJA DE ESTILOS INSTITUCIONAL
+   Paleta de Colores de Marca:
+   - Color Primario / Principal: #871a2f (Rojo borgoña oscuro)
+   - Color Secundario / Acento:  #9c1932 (Rojo carmesí)
+   - Elementos Neutros / Base:   Blanco (#ffffff) estrictamente preservado
+   ========================================================================== */
+
+:root {
+    --color-primary: #871a2f;          /* Rojo borgoña oscuro (Principal) */
+    --color-secondary: #9c1932;        /* Rojo carmesí (Secundario / Acento) */
+    --color-primary-rgb: 135, 26, 47;
+    --color-secondary-rgb: 156, 25, 50;
+}
+
 /* Estilos Generales */
 * {
     box-sizing: border-box;
@@ -20,7 +35,7 @@ body {
 
 /* Header & Nav */
 .main-header {
-    background-color: #003366;
+    background-color: #871a2f;
     color: white;
     padding: 15px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -53,7 +68,7 @@ body {
 
 .logo-text span {
     font-size: 0.8rem;
-    color: #ffd700;
+    color: #9c1932;
 }
 
 .main-nav ul {
@@ -77,9 +92,14 @@ body {
 }
 
 .btn-highlight {
-    background-color: #ffd700 !important;
-    color: #003366 !important;
+    background-color: #9c1932 !important;
+    color: #ffffff !important;
     font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-highlight:hover {
+    background-color: #871a2f !important;
 }
 
 .btn-login {
@@ -88,7 +108,7 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 51, 102, 0.85)), url('https://via.placeholder.com/1200x500') center/cover;
+    background: linear-gradient(rgba(135, 26, 47, 0.85), rgba(135, 26, 47, 0.85)), url('https://via.placeholder.com/1200x500') center/cover;
     color: white;
     padding: 80px 0;
     text-align: center;
@@ -115,8 +135,14 @@ body {
 }
 
 .btn-primary {
-    background-color: #ffd700;
-    color: #003366;
+    background-color: #871a2f;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #9c1932;
+    color: #ffffff;
 }
 
 .btn-secondary {
@@ -130,7 +156,7 @@ body {
     text-align: center;
     margin: 40px 0 20px;
     font-size: 1.8rem;
-    color: #003366;
+    color: #871a2f;
 }
 
 /* Noticias Grid */
@@ -169,16 +195,21 @@ body {
 
 .service-icon {
     font-size: 2.5rem;
-    color: #003366;
+    color: #871a2f;
     margin-bottom: 15px;
 }
 
 .service-link {
     display: inline-block;
     margin-top: 15px;
-    color: #003366;
+    color: #9c1932;
     font-weight: bold;
     text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.service-link:hover {
+    color: #871a2f;
 }
 
 /* Footer */
@@ -215,7 +246,7 @@ body {
 
 /* Formularios y Tarjetas Generales */
 .page-header {
-    background: linear-gradient(135deg, #003366, #002244);
+    background: linear-gradient(135deg, #871a2f, #9c1932);
     color: white;
     padding: 40px 0;
     text-align: center;
@@ -274,8 +305,8 @@ body {
 
 .form-control:focus {
     outline: none;
-    border-color: #003366;
-    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15);
+    border-color: #9c1932;
+    box-shadow: 0 0 0 3px rgba(156, 25, 50, 0.15);
 }
 
 textarea.form-control {
@@ -324,7 +355,7 @@ textarea.form-control {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border-top: 4px solid #ffd700;
+    border-top: 4px solid #9c1932;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -341,8 +372,8 @@ textarea.form-control {
 .specialty-icon {
     width: 50px;
     height: 50px;
-    background: #e6f0fa;
-    color: #003366;
+    background: rgba(135, 26, 47, 0.08);
+    color: #871a2f;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -352,7 +383,7 @@ textarea.form-control {
 }
 
 .specialty-card h3 {
-    color: #003366;
+    color: #871a2f;
     margin-bottom: 10px;
     font-size: 1.25rem;
 }
@@ -397,7 +428,7 @@ textarea.form-control {
     width: 100%;
     max-width: 440px;
     padding: 40px 30px;
-    border-top: 5px solid #003366;
+    border-top: 5px solid #871a2f;
 }
 
 .login-header {
@@ -406,7 +437,7 @@ textarea.form-control {
 }
 
 .login-header h2 {
-    color: #003366;
+    color: #871a2f;
     font-size: 1.6rem;
     margin-bottom: 6px;
 }
@@ -418,7 +449,7 @@ textarea.form-control {
 
 /* Panel Administrativo */
 .admin-navbar {
-    background: #002244;
+    background: #871a2f;
     color: white;
     padding: 12px 0;
     border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -448,8 +479,8 @@ textarea.form-control {
 }
 
 .admin-nav-links a:hover, .admin-nav-links a.active {
-    background: #003366;
-    color: #ffd700;
+    background: #9c1932;
+    color: #ffffff;
 }
 
 .admin-user-info {
@@ -474,7 +505,7 @@ textarea.form-control {
     display: flex;
     align-items: center;
     gap: 18px;
-    border-left: 4px solid #003366;
+    border-left: 4px solid #871a2f;
 }
 
 .stat-icon {
@@ -482,7 +513,7 @@ textarea.form-control {
     height: 50px;
     border-radius: 8px;
     background: #f1f5f9;
-    color: #003366;
+    color: #871a2f;
     display: flex;
     align-items: center;
     justify-content: center;
