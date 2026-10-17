@@ -11,6 +11,7 @@
     --color-secondary: #9c1932;        /* Rojo carmesí (Secundario / Acento) */
     --color-primary-rgb: 135, 26, 47;
     --color-secondary-rgb: 156, 25, 50;
+    --color-nav-text: #e8e8e6;         /* Tono claro para letras de header y footer */
 }
 
 /* Estilos Generales */
@@ -36,7 +37,7 @@ body {
 /* Header & Nav */
 .main-header {
     background-color: #871a2f;
-    color: white;
+    color: #e8e8e6;
     padding: 15px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
@@ -51,7 +52,7 @@ body {
 .logo-container a {
     display: flex;
     align-items: center;
-    color: white;
+    color: #e8e8e6;
     text-decoration: none;
     gap: 12px;
 }
@@ -64,11 +65,12 @@ body {
 
 .logo-text h1 {
     font-size: 1.3rem;
+    color: #e8e8e6;
 }
 
 .logo-text span {
     font-size: 0.8rem;
-    color: #9c1932;
+    color: #e8e8e6;
 }
 
 .main-nav ul {
@@ -79,7 +81,7 @@ body {
 }
 
 .main-nav a {
-    color: #ffffff;
+    color: #e8e8e6;
     text-decoration: none;
     padding: 8px 12px;
     border-radius: 4px;
@@ -89,11 +91,12 @@ body {
 
 .main-nav a:hover, .main-nav a.active {
     background-color: rgba(255,255,255,0.15);
+    color: #ffffff;
 }
 
 .btn-highlight {
     background-color: #9c1932 !important;
-    color: #ffffff !important;
+    color: #e8e8e6 !important;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
@@ -103,7 +106,7 @@ body {
 }
 
 .btn-login {
-    border: 1px solid #ffffff;
+    border: 1px solid #e8e8e6;
 }
 
 /* Hero Section */
@@ -214,10 +217,11 @@ body {
 
 /* Footer */
 .main-footer {
-    background-color: #1a1a1a;
-    color: white;
+    background-color: #871a2f;
+    color: #e8e8e6;
     padding-top: 40px;
     margin-top: 50px;
+    border-top: 4px solid #9c1932;
 }
 
 .footer-container {
@@ -227,21 +231,50 @@ body {
     padding-bottom: 30px;
 }
 
+.footer-info h3,
+.footer-links h4,
+.footer-contact h4 {
+    color: #e8e8e6;
+    margin-bottom: 12px;
+}
+
+.footer-info p,
+.footer-contact p {
+    color: #e8e8e6;
+    margin-bottom: 8px;
+}
+
 .footer-links ul {
     list-style: none;
 }
 
 .footer-links a {
-    color: #ccc;
+    color: #e8e8e6;
     text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+.main-footer i,
+.footer-contact i {
+    color: #e8e8e6;
+    margin-right: 8px;
 }
 
 .footer-bottom {
-    background-color: #111;
+    background-color: #5c1120;
     text-align: center;
     padding: 15px 0;
     font-size: 0.85rem;
-    color: #888;
+    color: #e8e8e6;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-bottom p {
+    color: #e8e8e6;
 }
 
 /* Formularios y Tarjetas Generales */
