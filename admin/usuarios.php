@@ -408,10 +408,10 @@ try {
         <!-- Encabezado de la página -->
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px;">
             <div>
-                <h2 style="color: #003366; margin-bottom: 5px;">
-                    <i class="fa-solid fa-users-gear" style="color: #871a2f;"></i> Gestión de Usuarios y Roles
+                <h2 style="color: var(--color-primary); font-weight: 800; margin-bottom: 5px;">
+                    <i class="fa-solid fa-users-gear" style="color: var(--color-secondary);"></i> Gestión de Usuarios y Roles
                 </h2>
-                <p style="color: #64748b; font-size: 0.95rem; margin: 0;">
+                <p style="color: var(--color-text-muted); font-size: 0.95rem; margin: 0;">
                     Administra las cuentas de acceso al panel, asigna permisos institucionales y audita el estado del personal.
                 </p>
             </div>
@@ -521,24 +521,34 @@ try {
                             <?php 
                                 $esPropioUsuario = ((int)$u['id'] === $currentUserId); 
                                 $esActivo = ((int)$u['estado'] === 1);
+                                $partesNombre = explode(' ', trim($u['nombre']));
+                                $iniciales = mb_strtoupper(mb_substr($partesNombre[0] ?? 'U', 0, 1) . mb_substr($partesNombre[1] ?? '', 0, 1));
+                                if (empty($iniciales)) $iniciales = 'U';
                             ?>
-                            <tr id="user-row-<?= (int)$u['id']; ?>" style="<?= $esPropioUsuario ? 'background: #fdfaf6;' : ''; ?>">
+                            <tr id="user-row-<?= (int)$u['id']; ?>" style="<?= $esPropioUsuario ? 'background: rgba(135, 26, 47, 0.03);' : ''; ?>">
                                 <td>
-                                    <strong>#<?= (int)$u['id']; ?></strong>
+                                    <strong style="font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted);">#<?= (int)$u['id']; ?></strong>
                                 </td>
                                 <td>
-                                    <div style="font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 6px;">
-                                        <?= e($u['nombre']); ?>
-                                        <?php if ($esPropioUsuario): ?>
-                                            <span style="font-size: 0.7rem; background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: bold;" title="Tu sesión activa">
-                                                <i class="fa-solid fa-user-check"></i> Tú
-                                            </span>
-                                        <?php endif; ?>
+                                    <div class="user-cell">
+                                        <div class="user-avatar" title="<?= e($u['nombre']); ?>">
+                                            <?= e($iniciales); ?>
+                                        </div>
+                                        <div>
+                                            <div class="user-meta-name">
+                                                <?= e($u['nombre']); ?>
+                                                <?php if ($esPropioUsuario): ?>
+                                                    <span style="font-size: 0.7rem; background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: 700;" title="Tu sesión activa">
+                                                        <i class="fa-solid fa-user-check"></i> Tú
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <span style="color: #475569; font-size: 0.9rem;">
-                                        <i class="fa-regular fa-envelope" style="color: #94a3b8; margin-right: 4px;"></i>
+                                    <span class="user-meta-email">
+                                        <i class="fa-regular fa-envelope"></i>
                                         <?= e($u['email']); ?>
                                     </span>
                                 </td>
@@ -550,7 +560,7 @@ try {
                                         <input type="hidden" name="usuario_id" value="<?= (int)$u['id']; ?>">
                                         <select name="nuevo_rol" 
                                                 class="filter-select" 
-                                                style="padding: 4px 8px; font-size: 0.82rem; font-weight: 600; width: 100%; <?= $esPropioUsuario ? 'background:#f8fafc; cursor:not-allowed;' : ''; ?>"
+                                                style="padding: 5px 8px; font-size: 0.82rem; font-weight: 600; width: 100%; <?= $esPropioUsuario ? 'background:#f8fafc; cursor:not-allowed;' : ''; ?>"
                                                 <?= $esPropioUsuario ? 'disabled title="Seguridad: No puedes revocar tus propios privilegios de administrador"' : 'onchange="confirmarCambioRol(this, ' . (int)$u['id'] . ')"'; ?>>
                                             <option value="admin" <?= ($u['rol'] === 'admin') ? 'selected' : ''; ?>>🛡️ Administrador</option>
                                             <option value="editor" <?= ($u['rol'] === 'editor') ? 'selected' : ''; ?>>✍️ Editor</option>
@@ -559,26 +569,25 @@ try {
                                     </form>
                                 </td>
                                 <td>
-                                    <!-- Badge de Estado con alternancia interactiva -->
+                                    <!-- Badge de Estado con indicador visual -->
                                     <?php if ($esActivo): ?>
                                         <span class="badge badge-activo" title="Cuenta operativa">
-                                            <i class="fa-solid fa-circle-check"></i> Activo
+                                            <span class="badge-dot"></span> Activo
                                         </span>
                                     <?php else: ?>
                                         <span class="badge badge-inactivo" title="Acceso bloqueado">
-                                            <i class="fa-solid fa-circle-xmark"></i> Inactivo
+                                            <span class="badge-dot"></span> Inactivo
                                         </span>
                                     <?php endif; ?>
                                 </td>
-                                <td style="font-size: 0.85rem; color: #64748b;">
+                                <td style="font-size: 0.85rem; color: var(--color-text-muted); font-family: 'JetBrains Mono', monospace;">
                                     <?= date('d/m/Y H:i', strtotime($u['creado_en'])); ?>
                                 </td>
                                 <td>
                                     <div class="actions-cell" style="justify-content: center;">
                                         <!-- Botón Editar -->
                                         <button type="button" 
-                                                class="btn btn-sm btn-outline" 
-                                                style="margin: 0; padding: 6px 10px;" 
+                                                class="btn-icon-action" 
                                                 title="Editar detalles del usuario"
                                                 onclick='abrirModalEditar(<?= json_encode([
                                                     "id"     => (int)$u['id'],
@@ -594,8 +603,8 @@ try {
                                         <!-- Botón Alternar Estado (Activar/Suspender) -->
                                         <?php if ($esPropioUsuario): ?>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline" 
-                                                    style="margin: 0; padding: 6px 10px; opacity: 0.5; cursor: not-allowed;" 
+                                                    class="btn-icon-action" 
+                                                    style="opacity: 0.4; cursor: not-allowed;" 
                                                     disabled 
                                                     title="Seguridad: No puedes suspender tu propia cuenta">
                                                 <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i>
@@ -607,8 +616,7 @@ try {
                                                 <input type="hidden" name="usuario_id" value="<?= (int)$u['id']; ?>">
                                                 <input type="hidden" name="nuevo_estado" value="<?= $esActivo ? 0 : 1; ?>">
                                                 <button type="submit" 
-                                                        class="btn btn-sm btn-outline" 
-                                                        style="margin: 0; padding: 6px 10px;" 
+                                                        class="btn-icon-action" 
                                                         title="<?= $esActivo ? 'Suspender cuenta de usuario' : 'Activar cuenta de usuario'; ?>"
                                                         onclick="return confirm('¿Confirma que desea <?= $esActivo ? 'suspender/desactivar' : 'activar'; ?> el acceso para este usuario?');">
                                                     <i class="fa-solid <?= $esActivo ? 'fa-toggle-on' : 'fa-toggle-off'; ?>" style="color: <?= $esActivo ? '#10b981' : '#94a3b8'; ?>;"></i>
@@ -619,16 +627,15 @@ try {
                                         <!-- Botón Eliminar -->
                                         <?php if ($esPropioUsuario): ?>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline" 
-                                                    style="margin: 0; padding: 6px 10px; opacity: 0.5; cursor: not-allowed;" 
+                                                    class="btn-icon-action" 
+                                                    style="opacity: 0.4; cursor: not-allowed;" 
                                                     disabled 
                                                     title="Seguridad: No puedes eliminar tu propia cuenta">
                                                 <i class="fa-solid fa-trash-can" style="color: #cbd5e1;"></i>
                                             </button>
                                         <?php else: ?>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-danger" 
-                                                    style="margin: 0; padding: 6px 10px;" 
+                                                    class="btn-icon-action btn-danger-action" 
                                                     title="Eliminar usuario definitivamente"
                                                     onclick="abrirModalEliminar(<?= (int)$u['id']; ?>, '<?= e($u['nombre']); ?>', '<?= e($u['email']); ?>')">
                                                 <i class="fa-solid fa-trash-can"></i>

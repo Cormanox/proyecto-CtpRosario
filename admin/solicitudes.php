@@ -110,7 +110,7 @@ try {
         <?php endif; ?>
 
         <!-- Sección Solicitudes de Pre-Matrícula -->
-        <h2 style="color: #003366; margin-bottom: 15px;"><i class="fa-solid fa-id-card"></i> Solicitudes de Pre-Matrícula (<?= count($solicitudes); ?>)</h2>
+        <h2 style="color: var(--color-primary); font-weight: 800; margin-bottom: 15px;"><i class="fa-solid fa-id-card"></i> Solicitudes de Pre-Matrícula (<?= count($solicitudes); ?>)</h2>
         <div class="table-responsive">
             <table class="data-table">
                 <thead>
@@ -136,7 +136,7 @@ try {
                                     <strong><?= e(($sol['nombre_estudiante'] ?? '') . ' ' . ($sol['primer_apellido'] ?? '') . ' ' . ($sol['segundo_apellido'] ?? '')); ?></strong>
                                 </td>
                                 <td><?= e($sol['fecha_nacimiento'] ?? ''); ?></td>
-                                <td><span style="color: #003366; font-weight: 600;"><?= e($sol['especialidad_interes'] ?? ''); ?></span></td>
+                                <td><span style="color: var(--color-primary); font-weight: 700;"><?= e($sol['especialidad_interes'] ?? ''); ?></span></td>
                                 <td>
                                     <small><strong>Tutor:</strong> <?= e($sol['nombre_encargado'] ?? ''); ?></small><br>
                                     <small><i class="fa-solid fa-phone"></i> <?= e($sol['telefono_contacto'] ?? ''); ?></small><br>
@@ -175,7 +175,7 @@ try {
         </div>
 
         <!-- Sección Mensajes y Consultas -->
-        <h2 id="consultas" style="color: #003366; margin: 45px 0 15px 0;"><i class="fa-solid fa-envelope-open-text"></i> Consultas de Contacto (<?= count($consultas); ?>)</h2>
+        <h2 id="consultas" style="color: var(--color-primary); font-weight: 800; margin: 45px 0 15px 0;"><i class="fa-solid fa-envelope-open-text"></i> Consultas de Contacto (<?= count($consultas); ?>)</h2>
         <div class="table-responsive">
             <table class="data-table">
                 <thead>
@@ -221,7 +221,7 @@ try {
                                         <input type="hidden" name="action" value="marcar_leido">
                                         <input type="hidden" name="consulta_id" value="<?= (int)$c['id']; ?>">
                                         <input type="hidden" name="leido" value="<?= !empty($c['leido']) ? '0' : '1'; ?>">
-                                        <button type="submit" class="btn btn-sm btn-secondary" style="color: #003366; border: 1px solid #cbd5e1;">
+                                        <button type="submit" class="btn btn-sm btn-outline" style="border: 1px solid var(--color-border);">
                                             <?= !empty($c['leido']) ? '<i class="fa-regular fa-envelope"></i> Marcar no leído' : '<i class="fa-solid fa-check"></i> Marcar leído'; ?>
                                         </button>
                                     </form>

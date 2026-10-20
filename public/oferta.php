@@ -105,11 +105,11 @@ require_once __DIR__ . '/../includes/header.php';
 
     <!-- Beneficios Institucionales -->
     <section class="form-card" style="margin-top: 30px;">
-        <h3 style="color: #003366; margin-bottom: 15px; font-size: 1.4rem;"><i class="fa-solid fa-award"></i> ¿Por qué estudiar en el CTP Rosario?</h3>
-        <p style="color: #475569; margin-bottom: 20px;">Nuestro modelo educativo combina la formación académica de secundaria con pasantías y prácticas profesionales en empresas líderes de la región, facilitando la inserción inmediata al mercado laboral y la continuidad de estudios universitarios.</p>
+        <h3 style="color: var(--color-primary); margin-bottom: 15px; font-size: 1.4rem; font-weight: 800;"><i class="fa-solid fa-award" style="color: var(--color-gold);"></i> ¿Por qué estudiar en el CTP Rosario?</h3>
+        <p style="color: var(--color-text-muted); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">Nuestro modelo educativo combina la formación académica de secundaria con pasantías y prácticas profesionales en empresas líderes de la región, facilitando la inserción inmediata al mercado laboral y la continuidad de estudios universitarios.</p>
         <div style="display: flex; gap: 15px; flex-wrap: wrap;">
             <a href="<?= url('public/prematricula.php'); ?>" class="btn btn-primary"><i class="fa-solid fa-file-signature"></i> Iniciar Proceso de Pre-Matrícula</a>
-            <a href="<?= url('public/contacto.php'); ?>" class="btn btn-secondary" style="color: #003366; border-color: #003366;"><i class="fa-solid fa-envelope"></i> ¿Tienes preguntas? Escríbenos</a>
+            <a href="<?= url('public/contacto.php'); ?>" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> ¿Tienes preguntas? Escríbenos</a>
         </div>
     </section>
 </main>

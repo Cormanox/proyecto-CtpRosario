@@ -1,0 +1,14 @@
+# Agents & Skills configuration
+.agents/
+
+# Environment & credentials
+.env
+.env.*
+!.env.example
+
+# Node dependencies
+node_modules/
+
+# OS generated files
+Thumbs.db
+.DS_Store

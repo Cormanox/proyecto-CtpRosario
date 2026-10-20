@@ -70,7 +70,7 @@ try {
     </header>
 
     <div class="container" style="margin-top: 35px; margin-bottom: 60px;">
-        <h2 style="color: #003366; margin-bottom: 25px;">
+        <h2 style="color: var(--color-primary); font-weight: 800; margin-bottom: 25px;">
             Resumen General del Sistema
         </h2>
 
@@ -136,8 +136,8 @@ try {
 
         <!-- Tabla: Últimas Pre-matrículas -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px 0;">
-            <h3 style="color: #003366; font-size: 1.3rem;"><i class="fa-solid fa-user-clock"></i> Últimas Solicitudes de Pre-Matrícula</h3>
-            <a href="<?= url('admin/solicitudes.php'); ?>" style="color: #003366; font-weight: 600; text-decoration: none; font-size: 0.9rem;">Ver todas las solicitudes &rarr;</a>
+            <h3 style="color: var(--color-primary); font-weight: 800; font-size: 1.3rem;"><i class="fa-solid fa-user-clock"></i> Últimas Solicitudes de Pre-Matrícula</h3>
+            <a href="<?= url('admin/solicitudes.php'); ?>" style="color: var(--color-secondary); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Ver todas las solicitudes &rarr;</a>
         </div>
 
         <div class="table-responsive">
@@ -183,8 +183,8 @@ try {
 
         <!-- Tabla: Últimas Consultas -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px 0;">
-            <h3 style="color: #003366; font-size: 1.3rem;"><i class="fa-solid fa-comments"></i> Mensajes Recientes de Contacto</h3>
-            <a href="<?= url('admin/solicitudes.php#consultas'); ?>" style="color: #003366; font-weight: 600; text-decoration: none; font-size: 0.9rem;">Ver todas las consultas &rarr;</a>
+            <h3 style="color: var(--color-primary); font-weight: 800; font-size: 1.3rem;"><i class="fa-solid fa-comments"></i> Mensajes Recientes de Contacto</h3>
+            <a href="<?= url('admin/solicitudes.php#consultas'); ?>" style="color: var(--color-secondary); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Ver todas las consultas &rarr;</a>
         </div>
 
         <div class="table-responsive">

@@ -103,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="<?= url('public/prematricula.php'); ?>" method="POST">
-            <h3 style="color: #003366; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">
-                <i class="fa-solid fa-user-graduate"></i> Datos del Estudiante
+            <h3 style="color: var(--color-primary); font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--color-border); padding-bottom: 10px;">
+                <i class="fa-solid fa-user-graduate" style="color: var(--color-secondary);"></i> Datos del Estudiante
             </h3>
 
             <div class="form-grid">
@@ -150,8 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <h3 style="color: #003366; margin: 30px 0 20px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">
-                <i class="fa-solid fa-users"></i> Datos del Encargado Legal y Contacto
+            <h3 style="color: var(--color-primary); font-weight: 800; margin: 30px 0 20px 0; border-bottom: 2px solid var(--color-border); padding-bottom: 10px;">
+                <i class="fa-solid fa-users" style="color: var(--color-secondary);"></i> Datos del Encargado Legal y Contacto
             </h3>
 
             <div class="form-grid">

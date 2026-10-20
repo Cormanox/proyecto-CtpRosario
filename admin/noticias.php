@@ -147,8 +147,8 @@ try {
 
         <!-- Formulario Crear Noticia -->
         <div class="form-card">
-            <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.3rem;">
-                <i class="fa-solid fa-pen-to-square"></i> Publicar Nueva Noticia o Comunicado
+            <h3 style="color: var(--color-primary); font-weight: 800; margin-bottom: 20px; font-size: 1.3rem;">
+                <i class="fa-solid fa-pen-to-square" style="color: var(--color-secondary);"></i> Publicar Nueva Noticia o Comunicado
             </h3>
 
             <form action="<?= url('admin/noticias.php'); ?>" method="POST">
@@ -188,8 +188,8 @@ try {
         </div>
 
         <!-- Listado de Noticias -->
-        <h3 style="color: #003366; margin: 40px 0 15px 0; font-size: 1.3rem;">
-            <i class="fa-solid fa-list-check"></i> Noticias Registradas (<?= count($noticias); ?>)
+        <h3 style="color: var(--color-primary); font-weight: 800; margin: 40px 0 15px 0; font-size: 1.3rem;">
+            <i class="fa-solid fa-list-check" style="color: var(--color-secondary);"></i> Noticias Registradas (<?= count($noticias); ?>)
         </h3>
 
         <div class="table-responsive">
