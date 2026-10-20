@@ -11,6 +11,8 @@ try {
     $totalConsultas = (int)$pdo->query("SELECT COUNT(*) FROM consultas")->fetchColumn();
     $consultasNoLeidas = (int)$pdo->query("SELECT COUNT(*) FROM consultas WHERE leido = 0")->fetchColumn();
     $totalNoticias = (int)$pdo->query("SELECT COUNT(*) FROM noticias WHERE estado = 'publicado'")->fetchColumn();
+    $totalUsuarios = (int)$pdo->query("SELECT COUNT(*) FROM usuarios")->fetchColumn();
+    $totalUsuariosActivos = (int)$pdo->query("SELECT COUNT(*) FROM usuarios WHERE estado = 1")->fetchColumn();
 
     // Últimas solicitudes de pre-matrícula
     $stmtPre = $pdo->query("SELECT * FROM prematriculas ORDER BY fecha_registro DESC LIMIT 5");
@@ -47,6 +49,7 @@ try {
                     <li><a href="<?= url('admin/index.php'); ?>" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
                     <?php if (tieneRol('admin')): ?>
                         <li><a href="<?= url('admin/solicitudes.php'); ?>"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
+                        <li><a href="<?= url('admin/usuarios.php'); ?>"><i class="fa-solid fa-users-gear"></i> Usuarios</a></li>
                     <?php endif; ?>
                     <li><a href="<?= url('admin/noticias.php'); ?>"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
                 </ul>
@@ -116,6 +119,19 @@ try {
                     <small style="color: #64748b;">MySQL (ctp_rosario)</small>
                 </div>
             </div>
+
+            <?php if (tieneRol('admin')): ?>
+                <div class="stat-card" style="border-left-color: #871a2f;">
+                    <div class="stat-icon" style="background: #fdf2f4; color: #871a2f;">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Usuarios & Roles</h4>
+                        <div class="stat-number"><?= $totalUsuarios; ?></div>
+                        <small style="color: #10b981;"><?= $totalUsuariosActivos; ?> activos / <a href="<?= url('admin/usuarios.php'); ?>" style="color: #871a2f; font-weight: 600; text-decoration: underline;">Gestionar</a></small>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
 
         <!-- Tabla: Últimas Pre-matrículas -->

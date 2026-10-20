@@ -88,8 +88,8 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rol` enum('admin','editor') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'editor',
-  `estado` tinyint(1) DEFAULT '1' COMMENT '1: Activo, 0: Inactivo',
+  `rol` enum('admin','editor','user') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `estado` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1: Activo, 0: Inactivo',
   `creado_en` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -132,7 +132,9 @@ ALTER TABLE `prematriculas`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `idx_usuarios_rol` (`rol`),
+  ADD KEY `idx_usuarios_estado` (`estado`);
 
 --
 -- AUTO_INCREMENT for dumped tables

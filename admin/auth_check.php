@@ -50,3 +50,36 @@ if (!function_exists('requerirRol')) {
     }
 }
 
+if (!function_exists('csrf_token')) {
+    /**
+     * Genera o retorna el token CSRF de la sesión actual.
+     */
+    function csrf_token(): string {
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return (string)$_SESSION['csrf_token'];
+    }
+}
+
+if (!function_exists('csrf_field')) {
+    /**
+     * Retorna el campo oculto HTML con el token CSRF.
+     */
+    function csrf_field(): string {
+        return '<input type="hidden" name="csrf_token" value="' . e(csrf_token()) . '">';
+    }
+}
+
+if (!function_exists('validar_csrf')) {
+    /**
+     * Valida el token CSRF contra el almacenado en la sesión de forma segura.
+     */
+    function validar_csrf(?string $token): bool {
+        $sessionToken = (string)($_SESSION['csrf_token'] ?? '');
+        if ($sessionToken === '' || empty($token)) {
+            return false;
+        }
+        return hash_equals($sessionToken, (string)$token);
+    }
+}

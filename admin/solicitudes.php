@@ -79,6 +79,9 @@ try {
                 <ul class="admin-nav-links">
                     <li><a href="<?= url('admin/index.php'); ?>"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
                     <li><a href="<?= url('admin/solicitudes.php'); ?>" class="active"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
+                    <?php if (tieneRol('admin')): ?>
+                        <li><a href="<?= url('admin/usuarios.php'); ?>"><i class="fa-solid fa-users-gear"></i> Usuarios</a></li>
+                    <?php endif; ?>
                     <li><a href="<?= url('admin/noticias.php'); ?>"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
                 </ul>
             </div>
