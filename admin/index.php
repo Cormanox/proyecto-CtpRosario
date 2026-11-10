@@ -6,13 +6,15 @@ require_once __DIR__ . '/../config/db.php';
 
 // Estadísticas de la base de datos
 try {
-    $totalPrematriculas = (int)$pdo->query("SELECT COUNT(*) FROM prematriculas")->fetchColumn();
+    $totalPrematriculas     = (int)$pdo->query("SELECT COUNT(*) FROM prematriculas")->fetchColumn();
     $pendientesPrematriculas = (int)$pdo->query("SELECT COUNT(*) FROM prematriculas WHERE estado_solicitud = 'pendiente'")->fetchColumn();
-    $totalConsultas = (int)$pdo->query("SELECT COUNT(*) FROM consultas")->fetchColumn();
-    $consultasNoLeidas = (int)$pdo->query("SELECT COUNT(*) FROM consultas WHERE leido = 0")->fetchColumn();
-    $totalNoticias = (int)$pdo->query("SELECT COUNT(*) FROM noticias WHERE estado = 'publicado'")->fetchColumn();
-    $totalUsuarios = (int)$pdo->query("SELECT COUNT(*) FROM usuarios")->fetchColumn();
-    $totalUsuariosActivos = (int)$pdo->query("SELECT COUNT(*) FROM usuarios WHERE estado = 1")->fetchColumn();
+    $totalConsultas         = (int)$pdo->query("SELECT COUNT(*) FROM consultas")->fetchColumn();
+    $consultasNoLeidas      = (int)$pdo->query("SELECT COUNT(*) FROM consultas WHERE leido = 0")->fetchColumn();
+    $totalNoticias          = (int)$pdo->query("SELECT COUNT(*) FROM noticias WHERE estado = 'publicado'")->fetchColumn();
+    $totalUsuarios          = (int)$pdo->query("SELECT COUNT(*) FROM usuarios")->fetchColumn();
+    $totalUsuariosActivos   = (int)$pdo->query("SELECT COUNT(*) FROM usuarios WHERE estado = 1")->fetchColumn();
+    $totalEspecialidades    = (int)$pdo->query("SELECT COUNT(*) FROM especialidades WHERE activa = 1")->fetchColumn();
+    $prematriculaAbierta    = obtener_config('prematricula_abierta', '1') === '1';
 
     // Últimas solicitudes de pre-matrícula
     $stmtPre = $pdo->query("SELECT * FROM prematriculas ORDER BY fecha_registro DESC LIMIT 5");
@@ -33,52 +35,70 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administrativo - CTP Rosario</title>
-    <link rel="stylesheet" href="<?= url('assets/css/styles.css'); ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="<?= url('assets/css/style.css'); ?>">
 </head>
 <body>
 
     <!-- Navegación del Panel de Administración -->
     <header class="admin-navbar">
         <div class="container admin-nav-container">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <h2 style="font-size: 1.25rem; font-weight: bold; color: #ffd700;">
-                    <i class="fa-solid fa-gauge-high"></i> CTP Rosario | Admin
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <h2 style="font-size: 1.25rem; font-weight: bold; color: var(--color-gold); display: flex; align-items: center; gap: 8px;">
+                    <?= icon('gauge-high', ['class' => 'icon-md']); ?> CTP Rosario | Admin
                 </h2>
                 <ul class="admin-nav-links">
-                    <li><a href="<?= url('admin/index.php'); ?>" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="<?= url('admin/index.php'); ?>" class="active"><?= icon('gauge-high', ['class' => 'icon-sm']); ?> Dashboard</a></li>
+                    <li><a href="<?= url('admin/especialidades.php'); ?>"><?= icon('graduation-cap', ['class' => 'icon-sm']); ?> Especialidades</a></li>
                     <?php if (tieneRol('admin')): ?>
-                        <li><a href="<?= url('admin/solicitudes.php'); ?>"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
-                        <li><a href="<?= url('admin/usuarios.php'); ?>"><i class="fa-solid fa-users-gear"></i> Usuarios</a></li>
+                        <li><a href="<?= url('admin/configuracion.php'); ?>"><?= icon('sliders', ['class' => 'icon-sm']); ?> Configuración</a></li>
+                        <li><a href="<?= url('admin/solicitudes.php'); ?>"><?= icon('file-signature', ['class' => 'icon-sm']); ?> Solicitudes & Consultas</a></li>
+                        <li><a href="<?= url('admin/usuarios.php'); ?>"><?= icon('users-gear', ['class' => 'icon-sm']); ?> Usuarios</a></li>
                     <?php endif; ?>
-                    <li><a href="<?= url('admin/noticias.php'); ?>"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
+                    <li><a href="<?= url('admin/noticias.php'); ?>"><?= icon('newspaper', ['class' => 'icon-sm']); ?> Noticias</a></li>
                 </ul>
             </div>
             <div class="admin-user-info">
                 <span>
-                    <i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Usuario'); ?>
-                    <span style="background: <?= (($_SESSION['user_role'] ?? '') === 'admin') ? '#ef4444' : '#3b82f6'; ?>; color: #fff; font-size: 0.72rem; padding: 2px 7px; border-radius: 12px; margin-left: 5px; text-transform: uppercase; font-weight: bold;">
+                    <?= icon('user', ['class' => 'icon-sm']); ?> <?= e($_SESSION['user_name'] ?? 'Usuario'); ?>
+                    <span class="badge badge-<?= e($_SESSION['user_role'] ?? 'user'); ?>" style="margin-left: 6px;">
                         <?= e($_SESSION['user_role'] ?? 'Usuario'); ?>
                     </span>
                 </span>
-                <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none;" title="Ver Portal Web">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Web
+                <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="Ver Portal Web">
+                    <?= icon('arrow-up-right-from-square', ['class' => 'icon-sm']); ?> Ver Web
                 </a>
-                <a href="<?= url('admin/logout.php'); ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+                <a href="<?= url('admin/logout.php'); ?>" class="btn btn-sm btn-danger" style="display: inline-flex; align-items: center; gap: 6px;">
+                    <?= icon('right-from-bracket', ['class' => 'icon-sm']); ?> Salir
+                </a>
             </div>
         </div>
     </header>
 
-    <div class="container" style="margin-top: 35px; margin-bottom: 60px;">
-        <h2 style="color: var(--color-primary); font-weight: 800; margin-bottom: 25px;">
-            Resumen General del Sistema
-        </h2>
+    <main class="container" style="margin-top: 35px; margin-bottom: 60px;">
+        <!-- Mensajes Flash -->
+        <?= render_flash(); ?>
 
-        <!-- Tarjetas de Estadísticas -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px;">
+            <div>
+                <h2 style="color: var(--color-primary); font-weight: 800; font-size: 1.65rem; margin-bottom: 4px;">
+                    Resumen General del Sistema
+                </h2>
+                <p style="color: var(--color-text-muted); font-size: 0.95rem;">
+                    Bienvenido, <strong><?= e($_SESSION['user_name'] ?? 'Usuario'); ?></strong>. Panel de control institucional del CTP Rosario de Naranjo.
+                </p>
+            </div>
+            <div>
+                <span class="badge <?= $prematriculaAbierta ? 'badge-activo' : 'badge-inactivo'; ?>" style="font-size: 0.9rem; padding: 6px 14px;">
+                    <?= $prematriculaAbierta ? icon('check-circle', ['class' => 'icon-sm']) . ' Convocatoria Pre-Matrícula Abierta' : icon('circle-exclamation', ['class' => 'icon-sm']) . ' Convocatoria Pre-Matrícula Cerrada'; ?>
+                </span>
+            </div>
+        </div>
+
+        <!-- Tarjetas de Estadísticas KPI con Contadores Animados -->
         <div class="stats-grid">
             <div class="stat-card" style="border-left-color: #3b82f6;">
                 <div class="stat-icon" style="background: #eff6ff; color: #3b82f6;">
-                    <i class="fa-solid fa-id-card"></i>
+                    <?= icon('file-signature', ['class' => 'icon-md']); ?>
                 </div>
                 <div class="stat-content">
                     <h4>Pre-Matrículas</h4>
@@ -89,7 +109,7 @@ try {
 
             <div class="stat-card" style="border-left-color: #10b981;">
                 <div class="stat-icon" style="background: #ecfdf5; color: #10b981;">
-                    <i class="fa-solid fa-newspaper"></i>
+                    <?= icon('newspaper', ['class' => 'icon-md']); ?>
                 </div>
                 <div class="stat-content">
                     <h4>Noticias Activas</h4>
@@ -98,9 +118,20 @@ try {
                 </div>
             </div>
 
+            <div class="stat-card" style="border-left-color: #871a2f;">
+                <div class="stat-icon" style="background: #fdf2f4; color: #871a2f;">
+                    <?= icon('graduation-cap', ['class' => 'icon-md']); ?>
+                </div>
+                <div class="stat-content">
+                    <h4>Especialidades Activas</h4>
+                    <div class="stat-number"><?= $totalEspecialidades; ?></div>
+                    <small style="color: var(--color-primary);"><a href="<?= url('admin/especialidades.php'); ?>" style="color: inherit; text-decoration: underline;">Gestionar oferta</a></small>
+                </div>
+            </div>
+
             <div class="stat-card" style="border-left-color: #f59e0b;">
                 <div class="stat-icon" style="background: #fffbeb; color: #f59e0b;">
-                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <?= icon('envelope', ['class' => 'icon-md']); ?>
                 </div>
                 <div class="stat-content">
                     <h4>Consultas Recibidas</h4>
@@ -109,26 +140,15 @@ try {
                 </div>
             </div>
 
-            <div class="stat-card" style="border-left-color: #8b5cf6;">
-                <div class="stat-icon" style="background: #f5f3ff; color: #8b5cf6;">
-                    <i class="fa-solid fa-database"></i>
-                </div>
-                <div class="stat-content">
-                    <h4>Servidor PHP & BD</h4>
-                    <div class="stat-number" style="font-size: 1.2rem; color: #10b981;">Conectado</div>
-                    <small style="color: #64748b;">MySQL (ctp_rosario)</small>
-                </div>
-            </div>
-
             <?php if (tieneRol('admin')): ?>
-                <div class="stat-card" style="border-left-color: #871a2f;">
-                    <div class="stat-icon" style="background: #fdf2f4; color: #871a2f;">
-                        <i class="fa-solid fa-users-gear"></i>
+                <div class="stat-card" style="border-left-color: #9c1932;">
+                    <div class="stat-icon" style="background: #fdf2f4; color: #9c1932;">
+                        <?= icon('users-gear', ['class' => 'icon-md']); ?>
                     </div>
                     <div class="stat-content">
                         <h4>Usuarios & Roles</h4>
                         <div class="stat-number"><?= $totalUsuarios; ?></div>
-                        <small style="color: #10b981;"><?= $totalUsuariosActivos; ?> activos / <a href="<?= url('admin/usuarios.php'); ?>" style="color: #871a2f; font-weight: 600; text-decoration: underline;">Gestionar</a></small>
+                        <small style="color: #10b981;"><?= $totalUsuariosActivos; ?> activos / <a href="<?= url('admin/usuarios.php'); ?>" style="color: var(--color-secondary); font-weight: 600; text-decoration: underline;">Gestionar</a></small>
                     </div>
                 </div>
             <?php endif; ?>
@@ -136,8 +156,12 @@ try {
 
         <!-- Tabla: Últimas Pre-matrículas -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px 0;">
-            <h3 style="color: var(--color-primary); font-weight: 800; font-size: 1.3rem;"><i class="fa-solid fa-user-clock"></i> Últimas Solicitudes de Pre-Matrícula</h3>
-            <a href="<?= url('admin/solicitudes.php'); ?>" style="color: var(--color-secondary); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Ver todas las solicitudes &rarr;</a>
+            <h3 style="color: var(--color-primary); font-weight: 800; font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+                <?= icon('file-signature', ['class' => 'icon-md']); ?> Últimas Solicitudes de Pre-Matrícula
+            </h3>
+            <a href="<?= url('admin/solicitudes.php'); ?>" style="color: var(--color-secondary); font-weight: 700; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px;">
+                Ver todas las solicitudes <?= icon('arrow-right', ['class' => 'icon-sm']); ?>
+            </a>
         </div>
 
         <div class="table-responsive">
@@ -161,7 +185,7 @@ try {
                                 <td>#<?= (int)$sol['id']; ?></td>
                                 <td><strong><?= e($sol['cedula_estudiante'] ?? ''); ?></strong></td>
                                 <td><?= e(($sol['nombre_estudiante'] ?? '') . ' ' . ($sol['primer_apellido'] ?? '')); ?></td>
-                                <td><?= e($sol['especialidad_interes'] ?? ''); ?></td>
+                                <td><span style="font-weight: 600; color: var(--color-primary);"><?= e($sol['especialidad_interes'] ?? ''); ?></span></td>
                                 <td><?= e($sol['nombre_encargado'] ?? ''); ?></td>
                                 <td><?= e($sol['telefono_contacto'] ?? ''); ?></td>
                                 <td>
@@ -174,7 +198,7 @@ try {
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="8" style="text-align: center; color: #94a3b8; padding: 25px;">No hay solicitudes registradas aún.</td>
+                            <td colspan="8" style="text-align: center; color: var(--color-text-subtle); padding: 25px;">No hay solicitudes registradas aún.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -183,8 +207,12 @@ try {
 
         <!-- Tabla: Últimas Consultas -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px 0;">
-            <h3 style="color: var(--color-primary); font-weight: 800; font-size: 1.3rem;"><i class="fa-solid fa-comments"></i> Mensajes Recientes de Contacto</h3>
-            <a href="<?= url('admin/solicitudes.php#consultas'); ?>" style="color: var(--color-secondary); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Ver todas las consultas &rarr;</a>
+            <h3 style="color: var(--color-primary); font-weight: 800; font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+                <?= icon('comments', ['class' => 'icon-md']); ?> Mensajes Recientes de Contacto
+            </h3>
+            <a href="<?= url('admin/solicitudes.php#consultas'); ?>" style="color: var(--color-secondary); font-weight: 700; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px;">
+                Ver todas las consultas <?= icon('arrow-right', ['class' => 'icon-sm']); ?>
+            </a>
         </div>
 
         <div class="table-responsive">
@@ -209,9 +237,9 @@ try {
                                 <td><?= e($c['asunto'] ?? ''); ?></td>
                                 <td>
                                     <?php if (!empty($c['leido'])): ?>
-                                        <span class="badge badge-aceptada">Leído</span>
+                                        <span class="badge badge-activo"><?= icon('check-circle', ['class' => 'icon-sm']); ?> Leído</span>
                                     <?php else: ?>
-                                        <span class="badge badge-rechazada">No leído</span>
+                                        <span class="badge badge-inactivo"><?= icon('bell-ringing', ['class' => 'icon-sm']); ?> No leído</span>
                                     <?php endif; ?>
                                 </td>
                                 <td><?= date('d/m/Y H:i', strtotime($c['fecha_envio'])); ?></td>
@@ -219,14 +247,14 @@ try {
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" style="text-align: center; color: #94a3b8; padding: 25px;">No hay mensajes recibidos aún.</td>
+                            <td colspan="6" style="text-align: center; color: var(--color-text-subtle); padding: 25px;">No hay mensajes recibidos aún.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
+    </main>
 
-    </div>
-
+    <script type="module" src="<?= url('assets/js/animations.js'); ?>"></script>
 </body>
 </html>

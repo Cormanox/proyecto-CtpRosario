@@ -367,38 +367,41 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios y Roles - CTP Rosario</title>
-    <link rel="stylesheet" href="<?= url('assets/css/styles.css'); ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="<?= url('assets/css/style.css'); ?>">
 </head>
 <body>
 
     <!-- Navegación del Panel de Administración -->
     <header class="admin-navbar">
         <div class="container admin-nav-container">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <h2 style="font-size: 1.25rem; font-weight: bold; color: #ffd700;">
-                    <i class="fa-solid fa-gauge-high"></i> CTP Rosario | Admin
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <h2 style="font-size: 1.25rem; font-weight: bold; color: var(--color-gold); display: flex; align-items: center; gap: 8px;">
+                    <?= icon('gauge-high', ['class' => 'icon-md']); ?> CTP Rosario | Admin
                 </h2>
                 <ul class="admin-nav-links">
-                    <li><a href="<?= url('admin/index.php'); ?>"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="<?= url('admin/index.php'); ?>"><?= icon('gauge-high', ['class' => 'icon-sm']); ?> Dashboard</a></li>
+                    <li><a href="<?= url('admin/especialidades.php'); ?>"><?= icon('graduation-cap', ['class' => 'icon-sm']); ?> Especialidades</a></li>
                     <?php if (tieneRol('admin')): ?>
-                        <li><a href="<?= url('admin/solicitudes.php'); ?>"><i class="fa-solid fa-file-signature"></i> Solicitudes & Consultas</a></li>
-                        <li><a href="<?= url('admin/usuarios.php'); ?>" class="active"><i class="fa-solid fa-users-gear"></i> Usuarios</a></li>
+                        <li><a href="<?= url('admin/configuracion.php'); ?>"><?= icon('sliders', ['class' => 'icon-sm']); ?> Configuración</a></li>
+                        <li><a href="<?= url('admin/solicitudes.php'); ?>"><?= icon('file-signature', ['class' => 'icon-sm']); ?> Solicitudes & Consultas</a></li>
+                        <li><a href="<?= url('admin/usuarios.php'); ?>" class="active"><?= icon('users-gear', ['class' => 'icon-sm']); ?> Usuarios</a></li>
                     <?php endif; ?>
-                    <li><a href="<?= url('admin/noticias.php'); ?>"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
+                    <li><a href="<?= url('admin/noticias.php'); ?>"><?= icon('newspaper', ['class' => 'icon-sm']); ?> Noticias</a></li>
                 </ul>
             </div>
             <div class="admin-user-info">
                 <span>
-                    <i class="fa-solid fa-user-circle"></i> <?= e($_SESSION['user_name'] ?? 'Usuario'); ?>
-                    <span style="background: <?= (($_SESSION['user_role'] ?? '') === 'admin') ? '#ef4444' : '#3b82f6'; ?>; color: #fff; font-size: 0.72rem; padding: 2px 7px; border-radius: 12px; margin-left: 5px; text-transform: uppercase; font-weight: bold;">
+                    <?= icon('user', ['class' => 'icon-sm']); ?> <?= e($_SESSION['user_name'] ?? 'Usuario'); ?>
+                    <span class="badge badge-<?= e($_SESSION['user_role'] ?? 'user'); ?>" style="margin-left: 6px;">
                         <?= e($_SESSION['user_role'] ?? 'Usuario'); ?>
                     </span>
                 </span>
-                <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none;" title="Ver Portal Web">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Web
+                <a href="<?= url('public/index.php'); ?>" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="Ver Portal Web">
+                    <?= icon('arrow-up-right-from-square', ['class' => 'icon-sm']); ?> Ver Web
                 </a>
-                <a href="<?= url('admin/logout.php'); ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+                <a href="<?= url('admin/logout.php'); ?>" class="btn btn-sm btn-danger" style="display: inline-flex; align-items: center; gap: 6px;">
+                    <?= icon('right-from-bracket', ['class' => 'icon-sm']); ?> Salir
+                </a>
             </div>
         </div>
     </header>
@@ -952,5 +955,6 @@ try {
         }
     </script>
 
+    <script type="module" src="<?= url('assets/js/animations.js'); ?>"></script>
 </body>
 </html>

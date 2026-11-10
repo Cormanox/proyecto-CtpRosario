@@ -1,6 +1,12 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/icons.php';
+
+$telOficial   = function_exists('obtener_config') ? obtener_config('telefono_oficial', '+506 2451-0000') : '+506 2451-0000';
+$correoOficial = function_exists('obtener_config') ? obtener_config('correo_oficial', 'info@ctprosario.ed.cr') : 'info@ctprosario.ed.cr';
+$dirOficial   = function_exists('obtener_config') ? obtener_config('direccion_oficial', 'Rosario de Naranjo, Alajuela, Costa Rica') : 'Rosario de Naranjo, Alajuela, Costa Rica';
+$colegioNombre = function_exists('obtener_config') ? obtener_config('colegio_nombre', 'Colegio Técnico Profesional Rosario') : 'Colegio Técnico Profesional Rosario';
 ?>
     <footer class="main-footer">
         <div class="container footer-container">
@@ -19,17 +25,19 @@ require_once __DIR__ . '/../config/db.php';
             </div>
             <div class="footer-contact">
                 <h4>Contacto Institucional</h4>
-                <p><i class="fa-solid fa-location-dot"></i> Rosario, Costa Rica</p>
-                <p><i class="fa-solid fa-phone"></i> +506 2000-0000</p>
-                <p><i class="fa-solid fa-envelope"></i> info@ctprosario.ed.cr</p>
+                <p><?= icon('location-dot', ['class' => 'icon-sm']); ?> <?= e($dirOficial); ?></p>
+                <p><?= icon('phone', ['class' => 'icon-sm']); ?> <a href="tel:<?= e(preg_replace('/[^0-9+]/', '', $telOficial)); ?>" style="color: inherit;"><?= e($telOficial); ?></a></p>
+                <p><?= icon('envelope', ['class' => 'icon-sm']); ?> <a href="mailto:<?= e($correoOficial); ?>" style="color: inherit;"><?= e($correoOficial); ?></a></p>
             </div>
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; <?= date('Y'); ?> CTP Rosario. Todos los derechos reservados. Proyecto Académico de Desarrollo Web.</p>
+                <p>&copy; <?= date('Y'); ?> <?= e($colegioNombre); ?>. Todos los derechos reservados. Proyecto Académico de Desarrollo Web.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Controlador de Animaciones Anime.js v4 & Microinteracciones Iconimate -->
+    <script type="module" src="<?= url('assets/js/animations.js'); ?>"></script>
 </body>
 </html>

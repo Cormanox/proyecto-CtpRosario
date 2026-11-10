@@ -1,214 +1,102 @@
-# Design System Master File
+# Design System Master File — CTP Rosario
 
-> **LOGIC:** When building a specific page, first check `design-system/pages/[page-name].md`.
-> If that file exists, its rules **override** this Master file.
-> If not, strictly follow the rules below.
-
----
-
-**Project:** CTP Rosario
-**Generated:** 2026-10-19 20:44:40
-**Category:** Educational App
+> **LÓGICA HIERÁRQUICA:** Al construir o modificar una página específica, revisa primero `design-system/ctp-rosario/pages/[page-name].md`.
+> Si ese archivo existe, sus reglas **tienen prioridad** sobre este archivo Master.
+> Si no existe, sigue estrictamente las especificaciones descritas a continuación.
 
 ---
 
-## Global Rules
-
-### Color Palette
-
-| Role | Hex | CSS Variable |
-|------|-----|--------------|
-| Primary | `#4F46E5` | `--color-primary` |
-| On Primary | `#FFFFFF` | `--color-on-primary` |
-| Secondary | `#818CF8` | `--color-secondary` |
-| On Secondary | `#0F172A` | `--color-on-secondary` |
-| Accent/CTA | `#EA580C` | `--color-accent` |
-| On Accent/CTA | `#000000` | `--color-on-accent` |
-| Background | `#EEF2FF` | `--color-background` |
-| Foreground | `#1E1B4B` | `--color-foreground` |
-| Card | `#FFFFFF` | `--color-card` |
-| Card Foreground | `#1E1B4B` | `--color-card-foreground` |
-| Muted | `#EBEEF8` | `--color-muted` |
-| Muted Foreground | `#475569` | `--color-muted-foreground` |
-| Border | `#C7D2FE` | `--color-border` |
-| Destructive | `#DC2626` | `--color-destructive` |
-| On Destructive | `#FFFFFF` | `--color-on-destructive` |
-| Ring | `#4F46E5` | `--color-ring` |
-
-**Color Notes:** Playful indigo + energetic orange [Accent adjusted from #F97316]
-
-### Typography
-
-- **Heading Font:** Fira Code
-- **Body Font:** Fira Sans
-- **Mood:** dashboard, data, analytics, code, technical, precise
-- **Google Fonts:** [Fira Code + Fira Sans](https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap)
-
-**CSS Import:**
-```css
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
-```
-
-### Spacing Variables
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-xs` | `4px` / `0.25rem` | Tight gaps |
-| `--space-sm` | `8px` / `0.5rem` | Icon gaps, inline spacing |
-| `--space-md` | `16px` / `1rem` | Standard padding |
-| `--space-lg` | `24px` / `1.5rem` | Section padding |
-| `--space-xl` | `32px` / `2rem` | Large gaps |
-| `--space-2xl` | `48px` / `3rem` | Section margins |
-| `--space-3xl` | `64px` / `4rem` | Hero padding |
-
-### Shadow Depths
-
-| Level | Value | Usage |
-|-------|-------|-------|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | Subtle lift |
-| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.1)` | Cards, buttons |
-| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1)` | Modals, dropdowns |
-| `--shadow-xl` | `0 20px 25px rgba(0,0,0,0.15)` | Hero images, featured cards |
+**Proyecto:** CTP Rosario (Colegio Técnico Profesional Rosario de Naranjo)  
+**Versión:** 2.0 (Autogestión CMS & UI/UX Pro Max)  
+**Dominio:** Portal Institucional y CMS Educativo Técnico  
+**Restricción Crítica:** Preservación estricta de la paleta cromática original del colegio.
 
 ---
 
-## Component Specs
+## 1. Identidad Cromática Institucional
 
-### Buttons
+| Rol | Hex | CSS Variable | Uso en Interfaz |
+|---|---|---|---|
+| **Primary (Borgoña Institucional)** | `#871a2f` | `--color-primary` | Cabeceras, barra de navegación, títulos principales, acentos de marca |
+| **Primary Dark (Borgoña Profundo)** | `#5c1120` | `--color-primary-dark` | Topbars, sombras de profundidad, contraste alto |
+| **Primary Light** | `#a3223b` | `--color-primary-light` | Estados interactivos, bordes destacados |
+| **Secondary (Rojo Carmesí)** | `#9c1932` | `--color-secondary` | Botones de acción principal (CTA), enlaces destacados |
+| **Secondary Hover** | `#731325` | `--color-secondary-hover` | Estado hover de botones primarios |
+| **Accent / Dorado Institucional** | `#ffd700` | `--color-gold` | Insignias, iconos conmemorativos, detalles de excelencia |
+| **Dorado Oscuro** | `#d97706` | `--color-gold-dark` | Texto legible sobre fondos claros |
+| **Nav Text** | `#e8e8e6` | `--color-nav-text` | Tipografía en header y footer sobre fondo borgoña |
+| **Fondo de Página** | `#f8f9fa` | `--color-bg-page` | Fondo global limpio institucional |
+| **Superficie / Tarjetas** | `#ffffff` | `--color-bg-surface` | Fondo de cards, modales, formularios y tablas |
+| **Superficie Hover** | `#f1f5f9` | `--color-bg-surface-hover` | Hover en filas de tablas e items de menú |
+| **Superficie Muted** | `#f8f9fc` | `--color-bg-muted` | Paneles secundarios, barras de filtros |
+| **Borde Estándar** | `#e2e8f0` | `--color-border` | Divisores, contorno de inputs y tarjetas |
+| **Borde Enfoque (Focus)** | `#9c1932` | `--color-border-focus` | Anillo accesible `:focus-visible` |
+| **Texto Principal** | `#1e293b` | `--color-text-main` | Slate 900 (Contraste 11.2:1 con fondo blanco) |
+| **Texto Secundario (Muted)** | `#475569` | `--color-text-muted` | Slate 600 (Contraste 5.6:1 con fondo blanco) |
+| **Texto Inverso** | `#ffffff` | `--color-text-inverse` | Texto sobre fondos oscuros o primarios |
 
-```css
-/* Primary Button */
-.btn-primary {
-  background: #EA580C;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 200ms ease;
-  cursor: pointer;
-}
+### Badges Semánticos de Estado y Roles (WCAG AAA >= 7.0:1)
+- **Activo / Aceptada:** Fondo `#ecfdf5`, Texto `#065f46`, Borde `#a7f3d0`
+- **Inactivo / Rechazada:** Fondo `#fef2f2`, Texto `#991b1b`, Borde `#fecaca`
+- **Pendiente / Warning:** Fondo `#fffbeb`, Texto `#92400e`, Borde `#fde68a`
+- **En Revisión / Info:** Fondo `#eff6ff`, Texto `#1e40af`, Borde `#bfdbfe`
+- **Rol Admin:** Fondo `#fdf2f4`, Texto `#871a2f`, Borde `#fbcfe8`
+- **Rol Editor:** Fondo `#fffbeb`, Texto `#92400e`, Borde `#fde68a`
+- **Rol Usuario:** Fondo `#f1f5f9`, Texto `#334155`, Borde `#cbd5e1`
 
-.btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
+---
 
-/* Secondary Button */
-.btn-secondary {
-  background: transparent;
-  color: #4F46E5;
-  border: 2px solid #4F46E5;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 200ms ease;
-  cursor: pointer;
-}
-```
+## 2. Tipografía y Jerarquía Fluida
 
-### Cards
-
-```css
-.card {
-  background: #EEF2FF;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow-md);
-  transition: all 200ms ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
-}
-```
-
-### Inputs
+- **Fuente de Lectura & UI:** `Plus Jakarta Sans`, sans-serif
+- **Fuente de Cifras, Código & Badges:** `JetBrains Mono`, monospace
+- **Escala Fluida:**
+  - `H1 (Hero Principal):` `clamp(2.0rem, 5vw, 3.25rem)` — `line-height: 1.15`
+  - `H2 (Títulos de Sección):` `clamp(1.5rem, 3.5vw, 2.25rem)` — `line-height: 1.25`
+  - `H3 (Títulos de Tarjeta):` `clamp(1.15rem, 2vw, 1.45rem)` — `line-height: 1.3`
+  - `Párrafo / Body:` `0.95rem` a `1.05rem` — `line-height: 1.6`
+  - `Texto Pequeño / Metadatos:` `0.85rem` — `line-height: 1.4`
 
 ```css
-.input {
-  padding: 12px 16px;
-  border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 200ms ease;
-}
-
-.input:focus {
-  border-color: #4F46E5;
-  outline: none;
-  box-shadow: 0 0 0 3px #4F46E520;
-}
-```
-
-### Modals
-
-```css
-.modal-overlay {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-}
-
-.modal {
-  background: white;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: var(--shadow-xl);
-  max-width: 500px;
-  width: 90%;
-}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 ```
 
 ---
 
-## Style Guidelines
+## 3. Espaciado y Ritmo Visual (Sistema 4/8dp)
 
-**Style:** Claymorphism
-
-**Keywords:** Soft 3D, chunky, playful, toy-like, bubbly, thick borders (3-4px), double shadows, rounded (16-24px)
-
-**Best For:** Educational apps, children's apps, SaaS platforms, creative tools, fun-focused, onboarding, casual games
-
-**Key Effects:** Inner+outer shadows (subtle, no hard lines), soft press (200ms ease-out), fluffy elements, smooth transitions
-
-### Page Pattern
-
-**Pattern Name:** Feature-Rich Showcase
-
-- **Conversion Strategy:** Clear feature hierarchy. One key message per card. Strong CTA repetition.
-- **CTA Placement:** Hero (sticky) + After features + Bottom
-- **Section Order:** Hero (value prop) > Feature grid/cards (4-6) > Use cases or benefits > Social proof or logos > CTA
+| Token | Valor | Uso Recomendado |
+|---|---|---|
+| `--space-xs` | `4px` | Espacio entre iconos pequeños y etiquetas |
+| `--space-sm` | `8px` | Gaps en botones, chips y controles |
+| `--space-md` | `16px` | Padding interno de inputs, espaciado estándar |
+| `--space-lg` | `24px` | Padding de tarjetas, gaps de grid |
+| `--space-xl` | `32px` | Separación entre módulos y secciones intermedias |
+| `--space-2xl` | `48px` | Márgenes verticales de sección |
+| `--space-3xl` | `64px` | Padding vertical del Hero y pie de página |
 
 ---
 
-## Anti-Patterns (Do NOT Use)
+## 4. Elevaciones y Sombras Bento
 
-- ❌ Dark modes
-- ❌ Complex jargon
-
-### Additional Forbidden Patterns
-
-- ❌ **Emojis as icons** — Use SVG icons (Heroicons, Lucide, Simple Icons)
-- ❌ **Missing cursor:pointer** — All clickable elements must have cursor:pointer
-- ❌ **Layout-shifting hovers** — Avoid scale transforms that shift layout
-- ❌ **Low contrast text** — Maintain 4.5:1 minimum contrast ratio
-- ❌ **Instant state changes** — Always use transitions (150-300ms)
-- ❌ **Invisible focus states** — Focus states must be visible for a11y
+| Nivel | Sombra | Uso |
+|---|---|---|
+| `--shadow-xs` | `0 1px 2px 0 rgba(0, 0, 0, 0.05)` | Botones planos, inputs en reposo |
+| `--shadow-sm` | `0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.06)` | Tarjetas informativas en reposo |
+| `--shadow-md` | `0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04)` | Tarjetas destacadas, dropdowns |
+| `--shadow-lg` | `0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03)` | Modales, tarjetas en hover |
+| `--shadow-xl` | `0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)` | Diálogos de confirmación, previews |
 
 ---
 
-## Pre-Delivery Checklist
+## 5. Reglas de Accesibilidad y Usabilidad (UI/UX Pro Max)
 
-Before delivering any UI code, verify:
-
-- [ ] No emojis used as icons (use SVG instead)
-- [ ] All icons from consistent icon set (Heroicons/Lucide)
-- [ ] `cursor-pointer` on all clickable elements
-- [ ] Hover states with smooth transitions (150-300ms)
-- [ ] Light mode: text contrast 4.5:1 minimum
-- [ ] Focus states visible for keyboard navigation
-- [ ] `prefers-reduced-motion` respected
-- [ ] Responsive: 375px, 768px, 1024px, 1440px
-- [ ] No content hidden behind fixed navbars
-- [ ] No horizontal scroll on mobile
+1. **Contraste WCAG AA Garantizado:** Todo texto regular debe alcanzar un ratio ≥ 4.5:1 respecto a su fondo.
+2. **Área Táctil Mínima:** Todo control interactivo (botones, inputs, selectores, enlaces de icono) debe tener un área táctil mínima de `44px x 44px`.
+3. **Foco Visible (`:focus-visible`):** Ningún elemento interactivo debe tener `outline: none` sin un reemplazo visible. Se utiliza un anillo de `2px solid var(--color-border-focus)` con `outline-offset: 2px`.
+4. **Iconos Contextuales:**
+   - Si el icono es decorativo y acompaña un texto visible: `aria-hidden="true"`.
+   - Si el icono es un botón de acción en solitario: `aria-label="Descripción de la acción"`.
+5. **No Emojis como Iconos Estructurales:** Prohibido el uso de emojis (📁, ✏️, 🗑️) para controles del sistema; utilizar exclusivamente SVGs inline estandarizados Iconimate.
+6. **Preferencia de Movimiento Reducido (`prefers-reduced-motion`):** Respetar la configuración del sistema para usuarios con sensibilidad al movimiento desactivando transiciones pesadas o acelerándolas a 0ms.
+7. **Tablas Responsivas sin Desbordamiento:** Envoltura obligatoria con `.table-responsive` (`overflow-x: auto`) y celdas con `white-space: normal` para evitar roturas de diseño en móviles (`375px`).

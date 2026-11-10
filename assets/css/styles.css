@@ -138,12 +138,14 @@ a:hover {
     margin-right: auto;
 }
 
-/* --- CABECERA PÚBLICA (ROJO BORGOÑA INSTITUCIONAL) --- */
+/* --- CABECERA PÚBLICA (ROJO BORGOÑA INSTITUCIONAL CON BLUR) --- */
 .main-header {
-    background-color: var(--color-primary);
+    background-color: rgba(135, 26, 47, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     color: var(--color-nav-text);
     padding: 14px 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 14px rgba(92, 17, 32, 0.22);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -974,10 +976,12 @@ a:hover {
 }
 
 .data-table tbody td {
-    padding: 16px 18px;
+    padding: 14px 16px;
     border-bottom: 1px solid var(--color-border-subtle);
     color: var(--color-text-main);
     vertical-align: middle;
+    word-break: break-word;
+    white-space: normal;
 }
 
 .data-table tbody tr {
@@ -1504,5 +1508,255 @@ textarea.form-control {
 
     .modal-dialog {
         padding: 0;
+    }
+}
+
+/* ==========================================================================
+   UI/UX PRO MAX - MEJORAS DE ACCESIBILIDAD, FLUIDEZ & COMPONENTES CMS
+   ========================================================================== */
+
+/* 1. Accesibilidad: Foco Visible Global */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.btn:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--color-border-focus) !important;
+    outline-offset: 2px !important;
+}
+
+/* 2. Áreas Táctiles Mínimas (≥ 44px) */
+button,
+.btn,
+.main-nav a,
+.mobile-menu-toggle,
+.form-control,
+.filter-btn,
+.pagination-link,
+.action-btn {
+    min-height: 44px;
+}
+
+.main-nav a,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 3. Tipografía Fluida con clamp() */
+.hero h2,
+.hero-content h2 {
+    font-size: clamp(1.85rem, 4.5vw, 2.85rem) !important;
+    line-height: 1.18;
+}
+
+.section-title {
+    font-size: clamp(1.45rem, 3.2vw, 2.15rem) !important;
+    line-height: 1.25;
+}
+
+.page-header h2 {
+    font-size: clamp(1.55rem, 3.5vw, 2.35rem) !important;
+    line-height: 1.22;
+}
+
+/* 4. Iconimate Core Inline SVG */
+.iconimate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    transition: transform var(--transition-fast) ease;
+}
+
+.iconimate svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 16;
+    stroke: currentColor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.iconimate.icon-sm svg { width: 16px; height: 16px; }
+.iconimate.icon-md svg { width: 22px; height: 22px; }
+.iconimate.icon-lg svg { width: 28px; height: 28px; }
+.iconimate.icon-xl svg { width: 38px; height: 38px; }
+
+/* Micro-animaciones en hover para iconos con data-iconimate */
+[data-iconimate]:hover,
+[data-iconimate]:focus-visible {
+    transform: scale(1.08);
+}
+
+/* 5. Switcher Interactivo iOS (Toggle Switch CMS) */
+.switch-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+}
+
+.switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    position: relative;
+    width: 50px;
+    height: 28px;
+    background-color: #cbd5e1;
+    border-radius: var(--radius-full);
+    transition: background-color var(--transition-base);
+    flex-shrink: 0;
+}
+
+.switch-slider::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: transform var(--transition-base);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.switch-input:checked + .switch-slider {
+    background-color: var(--color-primary);
+}
+
+.switch-input:checked + .switch-slider::before {
+    transform: translateX(22px);
+}
+
+.switch-input:focus-visible + .switch-slider {
+    box-shadow: 0 0 0 3px rgba(156, 25, 50, 0.35);
+}
+
+/* 6. Barra de Filtros Combinados (Admin & Público) */
+.filter-toolbar {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-control {
+    padding: 9px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    min-height: 44px;
+}
+
+.filter-control:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 3px rgba(156, 25, 50, 0.15);
+    outline: none;
+}
+
+.btn-export {
+    background: #065f46;
+    color: #ffffff !important;
+    font-weight: 700;
+    border: none;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    cursor: pointer;
+}
+
+.btn-export:hover {
+    background: #047857;
+    transform: translateY(-1px);
+}
+
+/* 7. Banner de Período Cerrado de Matrícula */
+.enrollment-banner {
+    background: #fffbeb;
+    border: 2px solid #fde68a;
+    border-left: 6px solid #d97706;
+    border-radius: var(--radius-md);
+    padding: 24px 28px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    box-shadow: var(--shadow-sm);
+}
+
+.enrollment-banner-icon {
+    color: #d97706;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.enrollment-banner-content h3 {
+    color: #92400e;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.enrollment-banner-content p {
+    color: #78350f;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* 8. Microinteracción de Error en Formulario (Sacudida) */
+@keyframes shake-anim {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+.shake-error {
+    animation: shake-anim 400ms ease-in-out;
+}
+
+/* 9. Soporte para Reducción de Movimiento */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

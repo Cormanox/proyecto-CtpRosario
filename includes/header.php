@@ -7,39 +7,40 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Carga de configuración global, conexión y funciones auxiliares
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/icons.php';
 
 // Normalización de la URI actual para determinar enlace activo
 $currentUri = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
+
+$colegioNombre = function_exists('obtener_config') ? obtener_config('colegio_nombre', 'CTP Rosario') : 'CTP Rosario';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($pageTitle) ? e($pageTitle) . " - CTP Rosario" : "CTP Rosario - Portal Web Institucional"; ?></title>
+    <title><?= isset($pageTitle) ? e($pageTitle) . " - " . e($colegioNombre) : e($colegioNombre) . " - Portal Web Institucional"; ?></title>
     <!-- Estilos CSS centralizados (Sistema de Diseño UI/UX Pro Max) -->
-    <link rel="stylesheet" href="<?= url('assets/css/styles.css'); ?>">
-    <!-- FontAwesome 6 para iconografía -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="<?= url('assets/css/style.css'); ?>">
 </head>
 <body>
 
-    <!-- Header Principal con Efecto Glassmorphism -->
+    <!-- Header Principal con Efecto Glassmorphism y Desenfoque Suave -->
     <header class="main-header">
         <div class="container header-container">
             <div class="logo-container">
                 <a href="<?= url('public/index.php'); ?>">
-                    <img src="<?= url('assets/img/escudoctp.png'); ?>" alt="Escudo CTP Rosario" class="logo-img">
+                    <img src="<?= url('assets/img/escudoctp.png'); ?>" alt="Escudo <?= e($colegioNombre); ?>" class="logo-img" width="52" height="52">
                     <div class="logo-text">
-                        <h1>CTP Rosario</h1>
+                        <h1><?= e($colegioNombre); ?></h1>
                         <span>Colegio Técnico Profesional</span>
                     </div>
                 </a>
             </div>
 
-            <!-- Botón Hamburguesa para Dispositivos Móviles -->
+            <!-- Botón Hamburguesa Accesible para Dispositivos Móviles -->
             <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Abrir menú de navegación" aria-expanded="false" onclick="toggleMobileNav()">
-                <i class="fa-solid fa-bars" id="menuToggleIcon"></i>
+                <span id="menuToggleIconWrap"><?= icon('bars', ['class' => 'icon-md']); ?></span>
             </button>
 
             <!-- Navegación Institucional -->
@@ -47,34 +48,34 @@ $currentUri = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
                 <ul>
                     <li>
                         <a href="<?= url('public/index.php'); ?>" class="<?= (str_ends_with($currentUri, 'public/index.php') || $currentUri === url('') || $currentUri === url('/') || str_ends_with($currentUri, '/proyecto-CtpRosario/')) ? 'active' : ''; ?>">
-                            <i class="fa-solid fa-house"></i> Inicio
+                            <?= icon('house', ['class' => 'icon-sm']); ?> Inicio
                         </a>
                     </li>
                     <li>
                         <a href="<?= url('public/oferta.php'); ?>" class="<?= str_contains($currentUri, 'oferta.php') ? 'active' : ''; ?>">
-                            <i class="fa-solid fa-graduation-cap"></i> Especialidades
+                            <?= icon('graduation-cap', ['class' => 'icon-sm']); ?> Especialidades
                         </a>
                     </li>
                     <li>
                         <a href="<?= url('public/prematricula.php'); ?>" class="btn-highlight <?= str_contains($currentUri, 'prematricula.php') ? 'active' : ''; ?>">
-                            <i class="fa-solid fa-file-signature"></i> Pre-Matrícula
+                            <?= icon('file-signature', ['class' => 'icon-sm']); ?> Pre-Matrícula
                         </a>
                     </li>
                     <li>
                         <a href="<?= url('public/contacto.php'); ?>" class="<?= str_contains($currentUri, 'contacto.php') ? 'active' : ''; ?>">
-                            <i class="fa-solid fa-envelope"></i> Contacto
+                            <?= icon('envelope', ['class' => 'icon-sm']); ?> Contacto
                         </a>
                     </li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li>
                             <a href="<?= url('admin/index.php'); ?>" class="btn-login">
-                                <i class="fa-solid fa-gauge-high"></i> Panel Admin
+                                <?= icon('gauge-high', ['class' => 'icon-sm']); ?> Panel Admin
                             </a>
                         </li>
                     <?php else: ?>
                         <li>
                             <a href="<?= url('login.php'); ?>" class="btn-login">
-                                <i class="fa-solid fa-user-lock"></i> Acceso Admin
+                                <?= icon('lock', ['class' => 'icon-sm']); ?> Acceso Admin
                             </a>
                         </li>
                     <?php endif; ?>
@@ -86,16 +87,14 @@ $currentUri = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
     <script>
         function toggleMobileNav() {
             const nav = document.getElementById('mainNav');
-            const icon = document.getElementById('menuToggleIcon');
+            const wrap = document.getElementById('menuToggleIconWrap');
             const btn = document.getElementById('mobileMenuBtn');
             const isOpen = nav.classList.toggle('open');
             btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             if (isOpen) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
+                wrap.innerHTML = '<?= addslashes(icon('xmark', ['class' => 'icon-md'])); ?>';
             } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
+                wrap.innerHTML = '<?= addslashes(icon('bars', ['class' => 'icon-md'])); ?>';
             }
         }
     </script>
