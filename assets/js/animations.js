@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
  * 1. Entrada Escalonada para Hero y Noticias
  */
 function initHeroAndNewsStagger() {
-    const heroElements = document.querySelectorAll('.hero h2, .hero p, .hero-buttons, .hero-content > *');
+    const heroElements = document.querySelectorAll('.hero-content > *');
     if (heroElements.length > 0) {
         animate(heroElements, {
             opacity: [0, 1],
-            translateY: [24, 0],
-            delay: stagger(90, { start: 100 }),
-            duration: 650,
+            translateY: [20, 0],
+            delay: stagger(100, { start: 80 }),
+            duration: 550,
             ease: 'outQuart'
         });
     }

@@ -260,12 +260,12 @@ a:hover {
     background-color: rgba(255, 255, 255, 0.25);
 }
 
-/* --- HERO SECTION (FONDO BORGOÑA ORIGINAL ELEVADO) --- */
+/* --- HERO SECTION (FONDO BORGOÑA ORIGINAL ELEVADO CON IMAGEN INSTITUCIONAL) --- */
 .hero {
-    background: linear-gradient(135deg, rgba(135, 26, 47, 0.94) 0%, rgba(156, 25, 50, 0.90) 100%),
-                url('https://via.placeholder.com/1200x500') center/cover;
+    background: linear-gradient(135deg, rgba(135, 26, 47, 0.88) 0%, rgba(92, 17, 32, 0.92) 100%),
+                url('../img/heroctp.webp') center/cover no-repeat;
     color: #ffffff;
-    padding: 80px 0 90px;
+    padding: 85px 0 95px;
     position: relative;
     overflow: hidden;
     text-align: center;

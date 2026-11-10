@@ -35,7 +35,7 @@ try {
 ?>
 
 <!-- Sección Hero / Bienvenida -->
-<section class="hero">
+<section class="hero" style="background-image: linear-gradient(135deg, rgba(135, 26, 47, 0.88) 0%, rgba(92, 17, 32, 0.92) 100%), url('<?= url('assets/img/heroctp.webp'); ?>');">
     <div class="container hero-content">
         <h2><?= e($heroTitulo); ?></h2>
         <p><?= e($heroSubtitulo); ?></p>

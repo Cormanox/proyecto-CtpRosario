@@ -35,13 +35,13 @@ if (!function_exists('requerirRol')) {
             <head>
                 <meta charset='UTF-8'>
                 <title>403 - Acceso Denegado</title>
-                <link rel='stylesheet' href='" . url('assets/css/styles.css') . "'>
+                <link rel='stylesheet' href='" . url('assets/css/style.css') . "'>
             </head>
-            <body style='display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f1f5f9; font-family:sans-serif;'>
-                <div style='background:#fff; padding:30px; border-radius:8px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); text-align:center; max-width:450px;'>
-                    <h2 style='color:#dc2626; margin-top:0;'>Acceso Denegado (403)</h2>
-                    <p style='color:#475569;'>No cuentas con los permisos necesarios (" . implode(', ', $rolesPermitidos) . ") para acceder a esta sección.</p>
-                    <a href='" . url('admin/index.php') . "' class='btn btn-primary' style='display:inline-block; padding:10px 20px; background:#003366; color:#fff; text-decoration:none; border-radius:5px;'>Volver al Panel</a>
+            <body style='display:flex; justify-content:center; align-items:center; min-height:100vh; background:var(--color-bg-page); font-family:sans-serif;'>
+                <div style='background:var(--color-bg-surface); padding:30px; border-radius:var(--radius-md); box-shadow:var(--shadow-md); text-align:center; max-width:450px; border:1px solid var(--color-border);'>
+                    <h2 style='color:var(--color-destructive); margin-top:0;'>Acceso Denegado (403)</h2>
+                    <p style='color:var(--color-text-muted);'>No cuentas con los permisos necesarios (" . implode(', ', $rolesPermitidos) . ") para acceder a esta sección.</p>
+                    <a href='" . url('admin/index.php') . "' class='btn btn-primary' style='display:inline-block; padding:10px 20px;'>Volver al Panel</a>
                 </div>
             </body>
             </html>";
